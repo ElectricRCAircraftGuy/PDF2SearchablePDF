@@ -42,7 +42,9 @@ if [ "$1" == "-v" ]; then
 fi
 
 pdf_in=$1
-pdf_out="${pdf_in}_searchable"
+# Strip file extension; see: https://stackoverflow.com/a/32584935/4561887
+pdf_in_no_ext=$(echo $pdf_in | rev | cut -f 2- -d '.' | rev)
+pdf_out="${pdf_in_no_ext}_searchable"
 
 echo "================================================================================="
 echo "Converting input PDF ($pdf_in) into a searchable PDF"
@@ -71,11 +73,11 @@ echo "  operation to complete successfully."
 # ever 80 chars or so as well. This will require spinning off another process in the background that does a file
 # check once per second or so to monitor progress. Once all files are created I can kill the background process
 # which was doing that monitoring.
-# pdftoppm -tiff -r 300 $pdf_in $temp_dir/pg
+pdftoppm -tiff -r 300 $pdf_in $temp_dir/pg
 
 # FOR DEVELOPMENT TO SPEED THIS UP BY USING PREVIOUSLY-GENERATED FILES INSTEAD 
 # (comment out the above command, & uncomment the below command):
-cp pdf2searchablepdf_temp_20191110-231200.594322352/* $temp_dir
+# cp pdf2searchablepdf_temp_20191110-231200.594322352/* $temp_dir
 
 echo "All TIF files created."
 
@@ -88,8 +90,14 @@ find $temp_dir/* | sort -V > $temp_dir/file_list.txt
 # See: https://github.com/tesseract-ocr/tesseract/wiki/FAQ
 echo "Running tesseract OCR on all generated TIF images in the temporary working directory."
 echo "This could take some time."
+echo "Searchable PDF will be generated at \"${pdf_out}.pdf\"."
 tesseract $temp_dir/file_list.txt $pdf_out pdf
-echo "Done! Searchable PDF generated at \"${pdf_out}.pdf.\""
+echo "Done! Searchable PDF generated at \"${pdf_out}.pdf\"."
+
+# 5. Delete temp dir
+echo "Removing temporary working directory at \"$temp_dir\"."
+rm -rf $temp_dir
+echo "Done!"
 
 
 end=$SECONDS
