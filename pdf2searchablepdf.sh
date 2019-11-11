@@ -12,10 +12,14 @@ start=$SECONDS
 EXIT_SUCCESS=0
 EXIT_ERROR=1
 
+VERSION="0.1.0"
+AUTHOR="Gabriel Staples"
+
 print_help() {
 	echo "Purpose: convert \"input.pdf\" to a searchable PDF named \"input_searchable.pdf\""
 	echo "by using tesseract to perform OCR (Optical Character Recognition) on the PDF."
 	echo 'Usage: `pdf2searchablepdf <input.pdf>`'
+	echo "Source code: https://github.com/ElectricRCAircraftGuy/PDF2SearchablePDF"
 }
 
 if [ $# -eq 0 ]; then
@@ -24,17 +28,27 @@ if [ $# -eq 0 ]; then
 	exit $EXIT_ERROR
 fi
 
+# Help menu
 if [ "$1" == "-h" ]; then
 	print_help
 	exit $EXIT_SUCCESS
 fi
 
+# Version
+if [ "$1" == "-v" ]; then
+	echo "pdf2searchablepdf version $VERSION"
+	echo "Author = $AUTHOR"
+	exit $EXIT_SUCCESS
+fi
+
 pdf_in=$1
+pdf_out="${pdf_in}_searchable"
+
 echo "================================================================================="
 echo "Converting input PDF ($pdf_in) into a searchable PDF"
 echo "================================================================================="
 
-# First, create temporary directory to place all intermediate files
+# 1. First, create temporary directory to place all intermediate files
 # - name it "pdf2searchablepdf_temp_yyyymmdd-hhmmss.ns"
 
 timestamp=$(date '+%Y%m%d-%H%M%S.%N')
@@ -45,7 +59,7 @@ echo "Creating temporary working directory: \"$temp_dir\""
 mkdir -p $temp_dir
 rm -rf $temp_dir/* # ensure it is empty
 
-# Convert the input pdf to a bunch of TIF files inside this directory
+# 2. Convert the input pdf to a bunch of TIF files inside this directory
 # - See my ans here: https://askubuntu.com/questions/150100/extracting-embedded-images-from-a-pdf/1187844#1187844
 echo "Converting input PDF to a bunch of output TIF images inside temporary working directory."
 echo "- THIS COULD TAKE A LONG TIME (up to 45 sec or so per page)! Manually watch the temporary"
@@ -59,29 +73,27 @@ echo "  operation to complete successfully."
 # which was doing that monitoring.
 # pdftoppm -tiff -r 300 $pdf_in $temp_dir/pg
 
-# FOR DEVELOPMENT TO SPEED THIS UP:
-cp pdf2searchablepdf_temp_20191110-231200.594322352/ $temp_dir
+# FOR DEVELOPMENT TO SPEED THIS UP BY USING PREVIOUSLY-GENERATED FILES INSTEAD 
+# (comment out the above command, & uncomment the below command):
+cp pdf2searchablepdf_temp_20191110-231200.594322352/* $temp_dir
 
 echo "All TIF files created."
+
+# 3. Create a text file containing a list of all of the generated tif files
+# - Use "version sort", or `sort -V` to enforce proper sorting between numbers which are multiple digits 
+# vs 1 digit--ex: "pg-1.tiff" and "pg-10.tiff", for instance. See here: https://unix.stackexchange.com/a/41659/114401
+find $temp_dir/* | sort -V > $temp_dir/file_list.txt
+
+# 4. Run tesseract OCR on all generated TIF images.
+# See: https://github.com/tesseract-ocr/tesseract/wiki/FAQ
+echo "Running tesseract OCR on all generated TIF images in the temporary working directory."
+echo "This could take some time."
+tesseract $temp_dir/file_list.txt $pdf_out pdf
+echo "Done! Searchable PDF generated at \"${pdf_out}.pdf.\""
+
 
 end=$SECONDS
 duration_sec=$(( end - start ))
 echo -e "\nTotal script run-time: $duration_sec sec"
 
-echo "END"
-
-
-
-# pdfimages -v
-# pdfimages -list 10pgs.pdf 
-
-# pdfimages -tiff 10pgs.pdf imgs
-
-# mkdir imgs
-# pdfimages -tiff 10pgs.pdf imgs/out
-
-# sudo apt update
-# sudo apt install tesseract-ocr
-
-# sudo apt install exactimage
-# hocr2pdf 
+echo "END OF pdf2searchablepdf."
