@@ -1,4 +1,5 @@
-# WORK IN PROGRESS--NOT YET FUNCTIONAL!
+# Status
+It works! v0.1.0 released 11 Nov. 2019!
 
 # PDF2SearchablePDF
 `pdf2searchablepdf <input.pdf>` = voila! "input_searchable.pdf" has now been created and has searchable text!
