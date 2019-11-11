@@ -12,8 +12,8 @@ This has been tested only on Ubuntu 18. It requires the following programs:
 
 ## You Must Install these:
 
-   sudo apt update 
-   sudo apt install tesseract-ocr
+    sudo apt update 
+    sudo apt install tesseract-ocr
 
 See: https://github.com/tesseract-ocr/tesseract/wiki
 
