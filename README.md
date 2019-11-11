@@ -19,7 +19,7 @@ See: https://github.com/tesseract-ocr/tesseract/wiki
 
 ## It also relies on these, but they come pre-installed on Ubuntu 18:
 
-1. pdftoppm
+1. `pdftoppm`
 
 # Installation
 Simply run the "install.sh" script to create a symbolic link to `pdf2searchablepdf` in your "~/bin" directory:
