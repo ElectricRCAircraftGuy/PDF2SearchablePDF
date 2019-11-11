@@ -2,3 +2,7 @@
 *.odt#
 *.ods#
 
+# Don't include temp files:
+/pdf2searchablepdf_temp*/
+# DO allow this one though to speed up development:
+!/pdf2searchablepdf_temp_20191110-231200.594322352/ 
