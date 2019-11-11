@@ -22,6 +22,10 @@ print_help() {
 	echo "Source code: https://github.com/ElectricRCAircraftGuy/PDF2SearchablePDF"
 }
 
+print_version() {
+	echo "pdf2searchablepdf version $VERSION"
+}
+
 if [ $# -eq 0 ]; then
 	echo "No arguments supplied"
 	print_help
@@ -36,8 +40,9 @@ fi
 
 # Version
 if [ "$1" == "-v" ]; then
-	echo "pdf2searchablepdf version $VERSION"
+	print_version
 	echo "Author = $AUTHOR"
+	echo 'See `pdf2searchablepdf -h` for more info.'
 	exit $EXIT_SUCCESS
 fi
 
@@ -46,6 +51,7 @@ pdf_in=$1
 pdf_in_no_ext=$(echo $pdf_in | rev | cut -f 2- -d '.' | rev)
 pdf_out="${pdf_in_no_ext}_searchable"
 
+print_version
 echo "================================================================================="
 echo "Converting input PDF ($pdf_in) into a searchable PDF"
 echo "================================================================================="
