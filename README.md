@@ -1,8 +1,57 @@
 # WORK IN PROGRESS--NOT YET FUNCTIONAL!
 
 # PDF2SearchablePDF
-`pdf2searchablepdf <input.pdf> [output.pdf]` = voila! output.pdf now has searchable text!
+`pdf2searchablepdf <input.pdf>` = voila! "input_searchable.pdf" has now been created and has searchable text!
 
 # Description:
 `tesseract` has the ability to do OCR (Optical Character Recognition) on image files, but unfortunately NOT on PDF files as inputs. This is unfortunate, as it means it's a pain to try to convert a PDF to a searchable PDF, so this is an attempt at scripting the process using existing tools in order to make it stupid-simple for ANYONE to use!
 
+# Dependencies:
+This has been tested only on Ubuntu 18. It requires the following programs:
+
+## You Must Install these:
+
+   sudo apt update 
+   sudo apt install tesseract-ocr
+
+See: https://github.com/tesseract-ocr/tesseract/wiki
+
+## It also relies on these, but they come pre-installed on Ubuntu 18:
+
+1. pdftoppm
+
+# Installation
+Simply run the "install.sh" script to create a symbolic link to `pdf2searchablepdf` in your "~/bin" directory:
+
+	./install.sh
+
+# Sample run and output:
+
+```
+$ pdf2searchablepdf ./test_pdfs/test1.pdf 
+pdf2searchablepdf version 0.1.0
+=================================================================================
+Converting input PDF (./test_pdfs/test1.pdf) into a searchable PDF
+=================================================================================
+Creating temporary working directory: "pdf2searchablepdf_temp_20191111-001431.509915114"
+Converting input PDF to a bunch of output TIF images inside temporary working directory.
+- THIS COULD TAKE A LONG TIME (up to 45 sec or so per page)! Manually watch the temporary
+  working directory to see the pages created one-by-one to roughly monitor progress.
+- NB: each TIF file created is ~25MB, so ensure you have enough disk space for this
+  operation to complete successfully.
+All TIF files created.
+Running tesseract OCR on all generated TIF images in the temporary working directory.
+This could take some time.
+Searchable PDF will be generated at "./test_pdfs/test1_searchable.pdf".
+Tesseract Open Source OCR Engine v4.0.0-beta.1 with Leptonica
+Page 0 : pdf2searchablepdf_temp_20191111-001431.509915114/pg-1.tif
+Page 1 : pdf2searchablepdf_temp_20191111-001431.509915114/pg-2.tif
+Page 2 : pdf2searchablepdf_temp_20191111-001431.509915114/pg-3.tif
+Done! Searchable PDF generated at "./test_pdfs/test1_searchable.pdf".
+Removing temporary working directory at "pdf2searchablepdf_temp_20191111-001431.509915114".
+Done!
+
+Total script run-time: 136 sec
+END OF pdf2searchablepdf.
+
+```
