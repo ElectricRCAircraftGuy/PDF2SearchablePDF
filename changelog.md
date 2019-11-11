@@ -12,4 +12,4 @@ PATCH version when you make backwards compatible bug fixes.
 
 
 ## 2019-11-10 - v0.1.0
-Initial release
+Initial release. It works!
