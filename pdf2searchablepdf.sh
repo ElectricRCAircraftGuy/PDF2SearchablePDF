@@ -19,6 +19,11 @@ print_help() {
 	echo "Purpose: convert \"input.pdf\" to a searchable PDF named \"input_searchable.pdf\""
 	echo "by using tesseract to perform OCR (Optical Character Recognition) on the PDF."
 	echo 'Usage: `pdf2searchablepdf <input.pdf>`'
+	echo 'alternate Usage: `pdf2searchablepdf <input.pdf> <lang>`'
+	echo 'the alternative <lang> argument allows to perform OCR in a language of choice'
+	echo 'this will be passed on to tesseract. You must use ISO 639 3-letter language code'
+	echo "e.g. \"deu\" for German or \"dan\" for Danish. See the tesseract help for details."
+	echo 'if the <lang> parameter is not given, english will be used by default.'
 	echo "Source code: https://github.com/ElectricRCAircraftGuy/PDF2SearchablePDF"
 }
 
@@ -47,6 +52,7 @@ if [ "$1" == "-v" ]; then
 fi
 
 pdf_in=$1
+lang=${2:-eng}
 # Strip file extension; see: https://stackoverflow.com/a/32584935/4561887
 pdf_in_no_ext=$(echo $pdf_in | rev | cut -f 2- -d '.' | rev)
 pdf_out="${pdf_in_no_ext}_searchable"
@@ -97,7 +103,8 @@ find $temp_dir/* | sort -V > $temp_dir/file_list.txt
 echo "Running tesseract OCR on all generated TIF images in the temporary working directory."
 echo "This could take some time."
 echo "Searchable PDF will be generated at \"${pdf_out}.pdf\"."
-tesseract $temp_dir/file_list.txt $pdf_out pdf
+echo "Language = $lang"
+tesseract -l $lang $temp_dir/file_list.txt $pdf_out pdf
 echo "Done! Searchable PDF generated at \"${pdf_out}.pdf\"."
 
 # 5. Delete temp dir
