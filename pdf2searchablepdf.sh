@@ -103,7 +103,7 @@ find $temp_dir/* | sort -V > $temp_dir/file_list.txt
 echo "Running tesseract OCR on all generated TIF images in the temporary working directory."
 echo "This could take some time."
 echo "Searchable PDF will be generated at \"${pdf_out}.pdf\"."
-echo "Language = $lang"
+#echo "Language = $lang"
 tesseract -l $lang $temp_dir/file_list.txt $pdf_out pdf
 echo "Done! Searchable PDF generated at \"${pdf_out}.pdf\"."
 
