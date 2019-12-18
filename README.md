@@ -56,3 +56,6 @@ Total script run-time: 136 sec
 END OF pdf2searchablepdf.
 
 ```
+
+KEYWORDS: pdf 2 searchable pdf, pdftosearchablepdf, pdf to searchable pdf, make pdf searchable, perform ocr on pdf to make it searchable, extract text from pdf, pdf to text, how to make a PDF document searchable, how to make an unsearchable PDF document searchable, how to perform OCR (Optical Character Recognition) on a PDF image
+
