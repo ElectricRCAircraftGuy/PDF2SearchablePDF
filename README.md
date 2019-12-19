@@ -7,6 +7,26 @@ It works! v0.1.0 released 11 Nov. 2019!
 # Description:
 `tesseract` has the ability to do OCR (Optical Character Recognition) on image files, but unfortunately NOT on PDF files as inputs. This is unfortunate, as it means it's a pain to try to convert a PDF to a searchable PDF, so this is an attempt at scripting the process using existing tools in order to make it stupid-simple for ANYONE to use!
 
+# Quick Start:
+See here: https://askubuntu.com/questions/473843/how-to-turn-a-pdf-into-a-text-searchable-pdf/1187881#1187881
+
+Tested on Ubuntu 18.04 on 11 Nov 2019.
+
+### Install:
+
+	git clone https://github.com/ElectricRCAircraftGuy/PDF2SearchablePDF.git
+	./PDF2SearchablePDF/install.sh
+	sudo apt update
+	sudo apt install tesseract-ocr
+
+### Use:
+
+	pdf2searchablepdf mypdf.pdf
+
+You'll now have a pdf called **mypdf_searchable.pdf**, which contains searchable text!
+
+Done. The wrapper has no python dependencies, as it's currently written entirely in bash.
+
 # Dependencies:
 This has been tested only on Ubuntu 18. It requires the following programs:
 
