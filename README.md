@@ -29,14 +29,14 @@ Tested on Ubuntu 18.04 on 11 Nov 2019.
 
 ### Install:
 
-	git clone https://github.com/ElectricRCAircraftGuy/PDF2SearchablePDF.git
-	./PDF2SearchablePDF/install.sh
-	sudo apt update
-	sudo apt install tesseract-ocr
+    git clone https://github.com/ElectricRCAircraftGuy/PDF2SearchablePDF.git
+    ./PDF2SearchablePDF/install.sh
+    sudo apt update
+    sudo apt install tesseract-ocr
 
 ### Use:
 
-	pdf2searchablepdf mypdf.pdf
+    pdf2searchablepdf mypdf.pdf
 
 You'll now have a pdf called **mypdf_searchable.pdf**, which contains searchable text!
 
@@ -59,7 +59,7 @@ See: https://github.com/tesseract-ocr/tesseract/wiki
 # PDF2SearchablePDF Installation:
 Simply run the "install.sh" script to create a symbolic link to `pdf2searchablepdf` in your "~/bin" directory:
 
-	./install.sh
+    ./install.sh
 
 In short, just follow the "Install" instructions above under the "Quick Start" section.
 
