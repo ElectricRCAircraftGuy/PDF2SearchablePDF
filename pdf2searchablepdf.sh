@@ -5,38 +5,50 @@
 # Started: 9 Nov. 2019 
 # - Source code: https://github.com/ElectricRCAircraftGuy/PDF2SearchablePDF
 
-# Test run: `pdf2searchablepdf ./test_pdfs/test1.pdf`
+# Test runs: 
+#   Convert test1.pdf
+#     pdf2searchablepdf ./test_pdfs/test1.pdf
+#   Print help menu
+#     pdf2searchablepdf -h
+#     pdf2searchablepdf -?
+#   Print version
+#     pdf2searchablepdf -v
 
 start=$SECONDS
 
 EXIT_SUCCESS=0
 EXIT_ERROR=1
 
-VERSION="0.1.0"
+VERSION="0.2.0"
 AUTHOR="Gabriel Staples"
 
 print_help() {
-	echo "Purpose: convert \"input.pdf\" to a searchable PDF named \"input_searchable.pdf\""
-	echo "by using tesseract to perform OCR (Optical Character Recognition) on the PDF."
-	echo "Usage:   `pdf2searchablepdf <input.pdf> [lang]`"
-	echo "Example: `pdf2searchablepdf mypdf.pdf deu` for German text OCR, or"
-	echo "         `pdf2searchablepdf mypdf.pdf` for English text OCR (the default)."
-	echo "  The optional [lang] argument allows you to perform OCR in your language of choice."
-	echo "  This parameter will be passed on to tesseract. You must use ISO 639-2 3-letter language"
+	echo 'Purpose: convert "input.pdf" to a searchable PDF named "input_searchable.pdf"'
+	echo 'by using tesseract to perform OCR (Optical Character Recognition) on the PDF.'
+	echo 'Usage:   `pdf2searchablepdf <input.pdf> [lang]` = primary usage'
+	echo '         `pdf2searchablepdf`    = print help menu'
+	echo '         `pdf2searchablepdf -h` = print help menu'
+	echo '         `pdf2searchablepdf -?` = print help menu'
+	echo '         `pdf2searchablepdf -v` = print author & version'
+	echo 'Example: `pdf2searchablepdf mypdf.pdf deu` for German text OCR, or'
+	echo '         `pdf2searchablepdf mypdf.pdf` for English text OCR (the default).'
+	echo '  The optional [lang] argument allows you to perform OCR in your language of choice.'
+	echo '  This parameter will be passed on to tesseract. You must use ISO 639-2 3-letter language'
 	# Note that the ISO 639-2 language code requirement is mentioned in the man pages here:
 	# https://github.com/tesseract-ocr/tesseract/blob/master/doc/tesseract.1.asc
-	echo "  codes. Ex: \"deu\" for German, \"dan\" for Danish, \"eng\" for English, etc."
-	echo "  See the \"LANGUAGES\" section of the tesseract man pages (`man tesseract`) for a"
-	echo "  complete list. If the [lang] parameter is not given, English will be used by default."
-	echo "  If you don\'t have a desired language installed, it may be obtained from one of the"
-	echo "  following 3 repos (see tesseract man pages for details):"
-	echo "    - https://github.com/tesseract-ocr/tessdata_fast"
-	echo "    - https://github.com/tesseract-ocr/tessdata_best"
-	echo "    - https://github.com/tesseract-ocr/tessdata"
-	echo "  To install a new langauge, simply download the respective \"*.traineddata\" file and copy it"
-	echo "  to your tesseract installation's \"tessdata\" directory. See \"Post-Install Instructions\""
-	echo "  here: https://github.com/tesseract-ocr/tesseract/wiki/Compiling-%E2%80%93-GitInstallation."
-	echo "Source code: https://github.com/ElectricRCAircraftGuy/PDF2SearchablePDF"
+	echo '  codes. Ex: "deu" for German, "dan" for Danish, "eng" for English, etc.'
+	echo '  See the "LANGUAGES" section of the tesseract man pages (`man tesseract`) for a'
+	echo '  complete list. If the [lang] parameter is not given, English will be used by default.'
+	echo '  If you don'"'"'t have a desired language installed, it may be obtained from one of the'
+	echo '  following 3 repos (see tesseract man pages for details):'
+	echo '    - https://github.com/tesseract-ocr/tessdata_fast'
+	echo '    - https://github.com/tesseract-ocr/tessdata_best'
+	echo '    - https://github.com/tesseract-ocr/tessdata'
+	echo '  To install a new langauge, simply download the respective "*.traineddata" file from one of'
+	echo '  the 3 repos above and copy it to your tesseract installation'"'"'s "tessdata" directory.'
+	echo '  See "Post-Install Instructions" here:'
+	echo '  https://github.com/tesseract-ocr/tesseract/wiki/Compiling-%E2%80%93-GitInstallation.'
+	echo 'Source code: https://github.com/ElectricRCAircraftGuy/PDF2SearchablePDF'
 }
 
 print_version() {
@@ -65,7 +77,7 @@ fi
 
 pdf_in=$1
 lang=${2:-eng}
-#echo "Language = $lang"
+echo "Language = $lang"
 
 # Strip file extension; see: https://stackoverflow.com/a/32584935/4561887
 pdf_in_no_ext=$(echo $pdf_in | rev | cut -f 2- -d '.' | rev)

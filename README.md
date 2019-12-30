@@ -1,11 +1,21 @@
 # Status
-It works! v0.1.0 released 11 Nov. 2019!
+It works! See Changelog below.
 
 # PDF2SearchablePDF
-`pdf2searchablepdf <input.pdf>` = voila! "input_searchable.pdf" has now been created and has searchable text!
+
+**Usage:**  
+`pdf2searchablepdf <input.pdf> [lang]`
+
+Examples: 
+
+1. `pdf2searchablepdf input.pdf` = voila! "input_searchable.pdf" has now been created and has searchable text!
+1. `pdf2searchablepdf input.pdf deu` = same as above except perform Optical Character Recognition (OCR) for German text instead of using the default of English. 
+
+**See help menu for full details & more examples:**  
+`pdf2searchablepdf -h`
 
 # Description:
-`tesseract` has the ability to do OCR (Optical Character Recognition) on image files, but unfortunately NOT on PDF files as inputs. This is unfortunate, as it means it's a pain to try to convert a PDF to a searchable PDF, so this is an attempt at scripting the process using existing tools in order to make it stupid-simple for ANYONE to use!
+`tesseract` has the ability to do OCR (Optical Character Recognition) on image files, but unfortunately NOT on PDF files as inputs. This is unfortunate, as it means it's a pain to try to convert a PDF to a searchable PDF, so this program scripts the process using existing tools in order to make it stupid-simple for ANYONE to use!
 
 # Quick Start:
 See here: https://askubuntu.com/questions/473843/how-to-turn-a-pdf-into-a-text-searchable-pdf/1187881#1187881
@@ -28,7 +38,7 @@ You'll now have a pdf called **mypdf_searchable.pdf**, which contains searchable
 Done. The wrapper has no python dependencies, as it's currently written entirely in bash.
 
 # Dependencies:
-This has been tested only on Ubuntu 18. It requires the following programs:
+This has been tested on Ubuntu 18. It requires the following programs:
 
 ## You Must Install these:
 
@@ -41,10 +51,12 @@ See: https://github.com/tesseract-ocr/tesseract/wiki
 
 1. `pdftoppm`
 
-# Installation
+# PDF2SearchablePDF Installation:
 Simply run the "install.sh" script to create a symbolic link to `pdf2searchablepdf` in your "~/bin" directory:
 
 	./install.sh
+
+In short, just follow the "Install" instructions above under the "Quick Start" section.
 
 # Sample run and output:
 
@@ -77,5 +89,30 @@ END OF pdf2searchablepdf.
 
 ```
 
-KEYWORDS: pdf 2 searchable pdf, pdftosearchablepdf, pdf to searchable pdf, make pdf searchable, perform ocr on pdf to make it searchable, extract text from pdf, pdf to text, how to make a PDF document searchable, how to make an unsearchable PDF document searchable, how to perform OCR (Optical Character Recognition) on a PDF image
+# Changelog
+- Newest on top
+- Follows Semantic Versioning; see: https://semver.org/
+- 6 most common recommended types of changes (see here: https://keepachangelog.com/en/1.0.0/): Added, Changed, Deprecated, Removed, Fixed, Security
+
+In short:  
+Given a version number MAJOR.MINOR.PATCH, increment the:  
+
+MAJOR version when you make incompatible API changes,  
+MINOR version when you add functionality in a backwards compatible manner, and  
+PATCH version when you make backwards compatible bug fixes.  
+
+## 2019-12-29 - v0.2.0
+- Improved help menu, which is accessible via: `pdf2searchablepdf -h` or `pdf2searchablepdf -?` or `pdf2searchablepdf`
+- Added ability to set the OCR language; new usage: `pdf2searchablepdf <input.pdf> [lang]`
+
+## 2019-11-10 - v0.1.0
+- Initial release. It works! 
+- Can only convert a pdf to a searchable pdf in English, which is tesseract's default setting.
+- Usage: `pdf2searchablepdf <input.pdf>`
+
+
+# KEYWORDS 
+(to make this repo more "Googlable"): 
+
+pdf 2 searchable pdf, pdftosearchablepdf, pdf to searchable pdf, make pdf searchable, perform ocr on pdf to make it searchable, extract text from pdf, pdf to text, how to make a PDF document searchable, how to make an unsearchable PDF document searchable, how to perform OCR (Optical Character Recognition) on a PDF image
 
