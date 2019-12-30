@@ -19,6 +19,22 @@ Examples:
 1. `pdf2searchablepdf input.pdf deu` = same as above except perform Optical Character Recognition (OCR) for German text instead of using the default of English. 
 1. `pdf2searchablepdf my_dir_of_images` = convert all images inside directory "my_dir_of_images" into a single, searchable PDF!
 
+*Note that when converting an entire directory of images, if the images are large (ex: jpeg images at 3MB each) when you start, your searchable PDF at the end will be very large too! Simply sum the sizes of all the images to know how big the final PDF file will be!* To reduce its size, one quick-and-easy way is to compress the jpeg images using `jpegoptim` *beore* you call `pdf2searchablepdf`. Read more about `jpegoptim` here: https://www.tecmint.com/optimize-and-compress-jpeg-or-png-batch-images-linux-commandline/.  
+
+Here's an example demonstrating how to install `jpegoptim`, use it to compress an entire directory of jpeg images, then call `pdf2searchablepdf` to turn the whole directory of images into one single, searchable pdf. Assume your directory containing all the jpeg images is called "dir_of_imgs". *Be sure no spaces exist anywhere in its path!*
+
+Install `jpegoptim`: 
+
+    sudo apt update
+    sudo apt install jpegoptim
+
+Compress all the images, then convert all of them to a single, searchable PDF:
+
+    jpegoptim --size=500k dir_of_imgs/*.jpg # compress the whole dir of images!
+    pdf2searchablepdf dir_of_imgs           # now make 1 searchable pdf out of all of them!
+
+For my particular case, with 7 jpeg images originally in the 2.5 to 3MB size range, the end result without jpegoptim was a 20 MB PDF, which is too large to email! By calling `jpegoptim --size=500k` as shown above, first, it shrunk the image size to approx. 500kB each, which meant the final PDF size was about 3.5MB instead of 20MB! Big improvement! Now I can email the file, and the images still look pretty good!
+
 # Description:
 `tesseract` has the ability to do OCR (Optical Character Recognition) on image files, but unfortunately NOT on PDF files as inputs. This is unfortunate, as it means it's a pain to try to convert a PDF to a searchable PDF, so this program scripts the process using existing tools in order to make it stupid-simple for ANYONE to use!
 
