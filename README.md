@@ -106,6 +106,11 @@ MAJOR version when you make incompatible API changes,
 MINOR version when you add functionality in a backwards compatible manner, and  
 PATCH version when you make backwards compatible bug fixes.  
 
+## v0.3.0 - 2019-12-29
+- Added a big new feature to allow the user to convert a whole directory containing a bunch of images into a single, searchable pdf! 
+- New usage: `pdf2searchablepdf <input.pdf | dir_of_imgs> [lang]`
+- Also added print of run duration at end in units of minutes too instead of just seconds.
+
 ## v0.2.0 - 2019-12-29
 - Improved help menu, which is accessible via: `pdf2searchablepdf -h` or `pdf2searchablepdf -?` or `pdf2searchablepdf`
 - Added ability to set the OCR language; new usage: `pdf2searchablepdf <input.pdf> [lang]`
