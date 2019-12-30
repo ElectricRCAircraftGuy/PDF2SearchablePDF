@@ -1,0 +1,7 @@
+
+GS
+29 Dec. 2019 
+
+Ex branch commit hash backup command: 
+    git branch -vv > ./private/branches-20191229-1845hrs.txt
+
