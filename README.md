@@ -101,11 +101,11 @@ MAJOR version when you make incompatible API changes,
 MINOR version when you add functionality in a backwards compatible manner, and  
 PATCH version when you make backwards compatible bug fixes.  
 
-## 2019-12-29 - v0.2.0
+## v0.2.0 - 2019-12-29
 - Improved help menu, which is accessible via: `pdf2searchablepdf -h` or `pdf2searchablepdf -?` or `pdf2searchablepdf`
 - Added ability to set the OCR language; new usage: `pdf2searchablepdf <input.pdf> [lang]`
 
-## 2019-11-10 - v0.1.0
+## v0.1.0 - 2019-11-10
 - Initial release. It works! 
 - Can only convert a pdf to a searchable pdf in English, which is tesseract's default setting.
 - Usage: `pdf2searchablepdf <input.pdf>`
