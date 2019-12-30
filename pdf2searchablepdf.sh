@@ -18,12 +18,24 @@ AUTHOR="Gabriel Staples"
 print_help() {
 	echo "Purpose: convert \"input.pdf\" to a searchable PDF named \"input_searchable.pdf\""
 	echo "by using tesseract to perform OCR (Optical Character Recognition) on the PDF."
-	echo 'Usage: `pdf2searchablepdf <input.pdf>`'
-	echo 'alternate Usage: `pdf2searchablepdf <input.pdf> <lang>`'
-	echo 'the alternative <lang> argument allows to perform OCR in a language of choice'
-	echo 'this will be passed on to tesseract. You must use ISO 639 3-letter language code'
-	echo "e.g. \"deu\" for German or \"dan\" for Danish. See the tesseract help for details."
-	echo 'if the <lang> parameter is not given, english will be used by default.'
+	echo "Usage:   `pdf2searchablepdf <input.pdf> [lang]`"
+	echo "Example: `pdf2searchablepdf mypdf.pdf deu` for German text OCR, or"
+	echo "         `pdf2searchablepdf mypdf.pdf` for English text OCR (the default)."
+	echo "  The optional [lang] argument allows you to perform OCR in your language of choice."
+	echo "  This parameter will be passed on to tesseract. You must use ISO 639-2 3-letter language"
+	# Note that the ISO 639-2 language code requirement is mentioned in the man pages here:
+	# https://github.com/tesseract-ocr/tesseract/blob/master/doc/tesseract.1.asc
+	echo "  codes. Ex: \"deu\" for German, \"dan\" for Danish, \"eng\" for English, etc."
+	echo "  See the \"LANGUAGES\" section of the tesseract man pages (`man tesseract`) for a"
+	echo "  complete list. If the [lang] parameter is not given, English will be used by default."
+	echo "  If you don\'t have a desired language installed, it may be obtained from one of the"
+	echo "  following 3 repos (see tesseract man pages for details):"
+	echo "    - https://github.com/tesseract-ocr/tessdata_fast"
+	echo "    - https://github.com/tesseract-ocr/tessdata_best"
+	echo "    - https://github.com/tesseract-ocr/tessdata"
+	echo "  To install a new langauge, simply download the respective \"*.traineddata\" file and copy it"
+	echo "  to your tesseract installation's \"tessdata\" directory. See \"Post-Install Instructions\""
+	echo "  here: https://github.com/tesseract-ocr/tesseract/wiki/Compiling-%E2%80%93-GitInstallation."
 	echo "Source code: https://github.com/ElectricRCAircraftGuy/PDF2SearchablePDF"
 }
 
@@ -38,7 +50,7 @@ if [ $# -eq 0 ]; then
 fi
 
 # Help menu
-if [ "$1" == "-h" ]; then
+if [ "$1" == "-h" ] || [ "$1" == "-?" ]; then
 	print_help
 	exit $EXIT_SUCCESS
 fi
@@ -53,6 +65,8 @@ fi
 
 pdf_in=$1
 lang=${2:-eng}
+#echo "Language = $lang"
+
 # Strip file extension; see: https://stackoverflow.com/a/32584935/4561887
 pdf_in_no_ext=$(echo $pdf_in | rev | cut -f 2- -d '.' | rev)
 pdf_out="${pdf_in_no_ext}_searchable"
@@ -103,7 +117,6 @@ find $temp_dir/* | sort -V > $temp_dir/file_list.txt
 echo "Running tesseract OCR on all generated TIF images in the temporary working directory."
 echo "This could take some time."
 echo "Searchable PDF will be generated at \"${pdf_out}.pdf\"."
-#echo "Language = $lang"
 tesseract -l $lang $temp_dir/file_list.txt $pdf_out pdf
 echo "Done! Searchable PDF generated at \"${pdf_out}.pdf\"."
 
