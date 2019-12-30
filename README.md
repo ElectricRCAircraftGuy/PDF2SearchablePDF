@@ -119,5 +119,5 @@ PATCH version when you make backwards compatible bug fixes.
 # KEYWORDS 
 (to make this repo more "Googlable"): 
 
-pdf 2 searchable pdf, pdftosearchablepdf, pdf to searchable pdf, make pdf searchable, perform ocr on pdf to make it searchable, extract text from pdf, pdf to text, how to make a PDF document searchable, how to make an unsearchable PDF document searchable, how to perform OCR (Optical Character Recognition) on a PDF image
+pdf 2 searchable pdf, pdftosearchablepdf, pdf to searchable pdf, make pdf searchable, perform ocr on pdf to make it searchable, extract text from pdf, pdf to text, how to make a PDF document searchable, how to make an unsearchable PDF document searchable, how to perform OCR (Optical Character Recognition) on a PDF image, linux convert directory of images into a single pdf, linux convert images to pdf, images to pdf, images2pdf, linux convert a folder of images into a single pdf, tif to pdf, tiff to pdf, png to pdf, bmp to pdf, jpg to pdf, jpeg to pdf, folder of pictures to pdf, ocr on pictures, ocr on images, pictures ocr to searchable pdf
 
