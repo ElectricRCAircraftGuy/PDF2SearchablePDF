@@ -4,7 +4,11 @@ It works! See Changelog below.
 # PDF2SearchablePDF
 
 **Usage:**  
-`pdf2searchablepdf <input.pdf> [lang]`
+`pdf2searchablepdf <input.pdf | dir_of_imgs> [lang]` = if the 1st argument is
+to an input pdf, then convert input.pdf to input_searchable.pdf using language
+"lang" for OCR. Otherwise, if the 1st argument is a path to a directory containing
+a bunch of images, convert the whole directory of images into a single PDF, using
+language "lang" for OCR!
 
 **See help menu for full details & more examples:**  
 `pdf2searchablepdf -h`
@@ -13,6 +17,7 @@ Examples:
 
 1. `pdf2searchablepdf input.pdf` = voila! "input_searchable.pdf" has now been created and has searchable text!
 1. `pdf2searchablepdf input.pdf deu` = same as above except perform Optical Character Recognition (OCR) for German text instead of using the default of English. 
+1. `pdf2searchablepdf my_dir_of_images` = convert all images inside directory "my_dir_of_images" into a single, searchable PDF!
 
 # Description:
 `tesseract` has the ability to do OCR (Optical Character Recognition) on image files, but unfortunately NOT on PDF files as inputs. This is unfortunate, as it means it's a pain to try to convert a PDF to a searchable PDF, so this program scripts the process using existing tools in order to make it stupid-simple for ANYONE to use!
