@@ -6,13 +6,13 @@ It works! See Changelog below.
 **Usage:**  
 `pdf2searchablepdf <input.pdf> [lang]`
 
+**See help menu for full details & more examples:**  
+`pdf2searchablepdf -h`
+
 Examples: 
 
 1. `pdf2searchablepdf input.pdf` = voila! "input_searchable.pdf" has now been created and has searchable text!
 1. `pdf2searchablepdf input.pdf deu` = same as above except perform Optical Character Recognition (OCR) for German text instead of using the default of English. 
-
-**See help menu for full details & more examples:**  
-`pdf2searchablepdf -h`
 
 # Description:
 `tesseract` has the ability to do OCR (Optical Character Recognition) on image files, but unfortunately NOT on PDF files as inputs. This is unfortunate, as it means it's a pain to try to convert a PDF to a searchable PDF, so this program scripts the process using existing tools in order to make it stupid-simple for ANYONE to use!
