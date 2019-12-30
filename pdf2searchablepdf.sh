@@ -6,8 +6,9 @@
 # - Source code: https://github.com/ElectricRCAircraftGuy/PDF2SearchablePDF
 
 # Test runs: 
-#   Convert test1.pdf
+#   Convert test pdfs:
 #     pdf2searchablepdf ./test_pdfs/test1.pdf
+#     pdf2searchablepdf ./test_pdfs/Wikipedia_pdf_screenshot.pdf
 #   Print help menu
 #     pdf2searchablepdf -h
 #     pdf2searchablepdf -?
@@ -19,19 +20,20 @@ start=$SECONDS
 EXIT_SUCCESS=0
 EXIT_ERROR=1
 
-VERSION="0.2.0"
+VERSION="0.3.0"
 AUTHOR="Gabriel Staples"
 
 print_help() {
 	echo 'Purpose: convert "input.pdf" to a searchable PDF named "input_searchable.pdf"'
 	echo 'by using tesseract to perform OCR (Optical Character Recognition) on the PDF.'
-	echo 'Usage:   `pdf2searchablepdf <input.pdf> [lang]` = primary usage'
-	echo '         `pdf2searchablepdf`    = print help menu'
-	echo '         `pdf2searchablepdf -h` = print help menu'
-	echo '         `pdf2searchablepdf -?` = print help menu'
-	echo '         `pdf2searchablepdf -v` = print author & version'
-	echo 'Example: `pdf2searchablepdf mypdf.pdf deu` for German text OCR, or'
-	echo '         `pdf2searchablepdf mypdf.pdf` for English text OCR (the default).'
+	echo 'Usage:    `pdf2searchablepdf <input.pdf> [lang]` = convert input.pdf to'
+	echo '            input_searchable.pdf using language "lang" for OCR.'
+	echo '          `pdf2searchablepdf`    = print help menu'
+	echo '          `pdf2searchablepdf -h` = print help menu'
+	echo '          `pdf2searchablepdf -?` = print help menu'
+	echo '          `pdf2searchablepdf -v` = print author & version'
+	echo 'Examples: `pdf2searchablepdf mypdf.pdf deu` for German text OCR, or'
+	echo '          `pdf2searchablepdf mypdf.pdf` for English text OCR (the default).'
 	echo '  The optional [lang] argument allows you to perform OCR in your language of choice.'
 	echo '  This parameter will be passed on to tesseract. You must use ISO 639-2 3-letter language'
 	# Note that the ISO 639-2 language code requirement is mentioned in the man pages here:
