@@ -112,26 +112,32 @@ END OF pdf2searchablepdf.
 
 # Changelog
 - Newest on top
-- Follows Semantic Versioning; see: https://semver.org/
-- 6 most common recommended types of changes (see here: https://keepachangelog.com/en/1.0.0/): Added, Changed, Deprecated, Removed, Fixed, Security
+- Follows Semantic Versioning: MAJOR.MINOR.PATCH; see: https://semver.org/ for rules & FAQ.
+- The 6 most common recommended types of changes are (see here: https://keepachangelog.com/en/1.0.0/): Added, Changed, Deprecated, Removed, Fixed, Security
 
-In short:  
-Given a version number MAJOR.MINOR.PATCH, increment the:  
+INITIAL DEVELOPMENT PHASE:
+- Use version numbers 0.MINOR.PATCH for the initial development phase; ex: 0.1.0, 0.2.0, etc.
+- Increment just the MINOR version number for each new 0.y.z development phase enhancement, until the project is mature enough that you choose to move to a 1.0.0 release
+- You may increment the PATCH number for bug fixes to your development code, or just increment the MINOR version number if there are also enhancements
 
-MAJOR version when you make incompatible API changes,  
-MINOR version when you add functionality in a backwards compatible manner, and  
-PATCH version when you make backwards compatible bug fixes.  
+MORE MATURE PHASE:
+- As the project matures, release a 1.0.0 version
+- Once you release a 1.0.0 version, do the following (copied from semver.org):
+- Given a version number MAJOR.MINOR.PATCH, increment the:  
+1. MAJOR version when you make incompatible API changes,  
+2. MINOR version when you add functionality in a backwards compatible manner, and  
+3. PATCH version when you make backwards compatible bug fixes.  
 
-## v0.3.0 - 2019-12-29
+## [v0.3.0] - 2019-12-29
 - Added a big new feature to allow the user to convert a whole directory containing a bunch of images into a single, searchable pdf! 
 - New usage: `pdf2searchablepdf <input.pdf | dir_of_imgs> [lang]`
 - Also added print of run duration at end in units of minutes too instead of just seconds.
 
-## v0.2.0 - 2019-12-29
+## [v0.2.0] - 2019-12-29
 - Improved help menu, which is accessible via: `pdf2searchablepdf -h` or `pdf2searchablepdf -?` or `pdf2searchablepdf`
 - Added ability to set the OCR language; new usage: `pdf2searchablepdf <input.pdf> [lang]`
 
-## v0.1.0 - 2019-11-10
+## [v0.1.0] - 2019-11-10
 - Initial release. It works! 
 - Can only convert a pdf to a searchable pdf in English, which is tesseract's default setting.
 - Usage: `pdf2searchablepdf <input.pdf>`
