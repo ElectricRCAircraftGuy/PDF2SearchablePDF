@@ -142,6 +142,11 @@ MORE MATURE PHASE:
 - Can only convert a pdf to a searchable pdf in English, which is tesseract's default setting.
 - Usage: `pdf2searchablepdf <input.pdf>`
 
+# Alternative Software:
+1. https://github.com/tesseract-ocr/tesseract/wiki/User-Projects-%E2%80%93-3rdParty#4-others-utilities-tools-command-line-interfaces-cli-etc
+    1. https://github.com/jbarlow83/OCRmyPDF
+    1. https://github.com/LeoFCardoso/pdf2pdfocr
+- See my issue here: https://github.com/ElectricRCAircraftGuy/PDF2SearchablePDF/issues/5. Are these alternatives better than my project here? Do I offer something they don't? Should I continue this project or just switch to using one of the projects listed above? I need to investigate and find out more!
 
 # KEYWORDS 
 (to make this repo more "Googlable"): 
