@@ -6,3 +6,5 @@
 /pdf2searchablepdf_temp*/
 # DO allow this one though to speed up development:
 !/pdf2searchablepdf_temp_20191110-231200.594322352/ 
+
+/git_branch_hash_backups/
