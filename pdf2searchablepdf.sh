@@ -162,7 +162,7 @@ main() {
 
         # FOR DEVELOPMENT TO SPEED THIS UP BY USING PREVIOUSLY-GENERATED FILES INSTEAD 
         # (comment out the above command, & uncomment the below command):
-        # cp "pdf2searchablepdf_temp_20191110-231200.594322352/*" "$temp_dir"
+        # cp "pdf2searchablepdf_temp_20191110-231200.594322352"/* "$temp_dir"
 
         echo "All TIF files created."
 
