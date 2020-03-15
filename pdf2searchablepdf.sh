@@ -22,7 +22,7 @@ start=$SECONDS
 EXIT_SUCCESS=0
 EXIT_ERROR=1
 
-VERSION="0.3.0"
+VERSION="0.4.0"
 AUTHOR="Gabriel Staples"
 
 print_help() {
@@ -96,7 +96,8 @@ if [ -d "$1" ]; then
     
     # Remove trailing slash if there is one
     # - see: https://unix.stackexchange.com/questions/198045/how-to-strip-the-last-slash-of-the-directory-path/198049#198049
-    dir_of_imgs=${1%/} 
+    dir_of_imgs="${1%/}" 
+    # echo "dir_of_imgs = \"$dir_of_imgs\"" # debugging
     temp_dir=""
     
     echo "================================================================================="
@@ -112,8 +113,8 @@ if [ -d "$1" ]; then
     file_list_path="${dir_of_imgs}/file_list.txt"
     # Ensure file_list_path doesn't yet exist, so that this filename won't get included inside this file itself as
     # part of the list (useful in case this file was left around from a previous run)
-    rm -f $file_list_path 
-    find $dir_of_imgs/* | sort -V > $file_list_path
+    rm -f "$file_list_path" 
+    find "$dir_of_imgs"/* | sort -V > "$file_list_path"
 
     pdf_out="${dir_of_imgs}_searchable"
 
@@ -121,26 +122,26 @@ if [ -d "$1" ]; then
 else 
     # Convert a single input pdf into a searchable pdf
     
-    pdf_in=$1
+    pdf_in="$1"
 
     echo "================================================================================="
     echo "Converting input PDF ($pdf_in) into a searchable PDF"
     echo "================================================================================="
 
     # Strip file extension; see: https://stackoverflow.com/a/32584935/4561887
-    pdf_in_no_ext=$(echo $pdf_in | rev | cut -f 2- -d '.' | rev)
+    pdf_in_no_ext="$(echo "$pdf_in" | rev | cut -f 2- -d '.' | rev)"
     pdf_out="${pdf_in_no_ext}_searchable"
 
     # 1. First, create temporary directory to place all intermediate files
     # - name it "pdf2searchablepdf_temp_yyyymmdd-hhmmss.ns"
 
-    timestamp=$(date '+%Y%m%d-%H%M%S.%N')
-    # echo "timestamp = $timestamp"
+    timestamp="$(date '+%Y%m%d-%H%M%S.%N')"
+    # echo "timestamp = \"$timestamp\""
     temp_dir="pdf2searchablepdf_temp_${timestamp}"
-    # echo "temp_dir = $temp_dir"
+    # echo "temp_dir = \"$temp_dir\""
     echo "Creating temporary working directory: \"$temp_dir\""
-    mkdir -p $temp_dir
-    rm -rf $temp_dir/* # ensure it is empty
+    mkdir -p "$temp_dir"
+    rm -rf "$temp_dir"/* # ensure it is empty
 
     # 2. Convert the input pdf to a bunch of TIF files inside this directory
     # - See my ans here: https://askubuntu.com/questions/150100/extracting-embedded-images-from-a-pdf/1187844#1187844
@@ -154,11 +155,11 @@ else
     # ever 80 chars or so as well. This will require spinning off another process in the background that does a file
     # check once per second or so to monitor progress. Once all files are created I can kill the background process
     # which was doing that monitoring.
-    pdftoppm -tiff -r 300 $pdf_in $temp_dir/pg
+    pdftoppm -tiff -r 300 "$pdf_in" "$temp_dir/pg"
 
     # FOR DEVELOPMENT TO SPEED THIS UP BY USING PREVIOUSLY-GENERATED FILES INSTEAD 
     # (comment out the above command, & uncomment the below command):
-    # cp pdf2searchablepdf_temp_20191110-231200.594322352/* $temp_dir
+    # cp "pdf2searchablepdf_temp_20191110-231200.594322352/*" "$temp_dir"
 
     echo "All TIF files created."
 
@@ -166,7 +167,7 @@ else
     # - Use "version sort", or `sort -V` to enforce proper sorting between numbers which are multiple digits vs 
     #   1 digit--ex: "pg-1.tiff" and "pg-10.tiff", for instance. See here: https://unix.stackexchange.com/a/41659/114401
     file_list_path="${temp_dir}/file_list.txt"
-    find $temp_dir/* | sort -V > $file_list_path
+    find "$temp_dir"/* | sort -V > "$file_list_path"
 
     echo "Running tesseract OCR on all generated TIF images in the temporary working directory."
 fi
@@ -175,21 +176,21 @@ fi
 # See: https://github.com/tesseract-ocr/tesseract/wiki/FAQ
 echo "This could take some time."
 echo "Searchable PDF will be generated at \"${pdf_out}.pdf\"."
-tesseract -l $lang $file_list_path $pdf_out pdf
+tesseract -l "$lang" "$file_list_path" "$pdf_out" pdf
 echo "Done! Searchable PDF generated at \"${pdf_out}.pdf\"."
 
 # 5. Delete temp dir
 if [ "$temp_dir" != "" ]; then
     echo "Removing temporary working directory at \"$temp_dir\"."
-    rm -rf $temp_dir
+    rm -rf "$temp_dir"
     echo "Done!"
 fi
 
-end=$SECONDS
-duration_sec=$(( end - start ))
+end="$SECONDS"
+duration_sec="$(( end - start ))"
 # Get duration in min too; see my ans here: 
 # https://stackoverflow.com/questions/12722095/how-do-i-use-floating-point-division-in-bash/58479867#58479867
-duration_min=$(printf %.3f $(echo "$duration_sec/60" | bc -l))
+duration_min="$(printf %.3f $(echo "$duration_sec/60" | bc -l))"
 echo -e "\nTotal script run-time: $duration_sec sec ($duration_min min)"
 
 echo "END OF pdf2searchablepdf."

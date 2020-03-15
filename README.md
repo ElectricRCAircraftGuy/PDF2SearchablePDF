@@ -128,6 +128,9 @@ MORE MATURE PHASE:
 2. MINOR version when you add functionality in a backwards compatible manner, and  
 3. PATCH version when you make backwards compatible bug fixes.  
 
+## [v0.4.0] - 2020-03-14
+- Updated install.sh & pdf2searchablepdf.sh scripts to allow spaces in path names; fixes [issue #6](https://github.com/ElectricRCAircraftGuy/PDF2SearchablePDF/issues/6)
+
 ## [v0.3.0] - 2019-12-29
 - Added a big new feature to allow the user to convert a whole directory containing a bunch of images into a single, searchable pdf! 
 - New usage: `pdf2searchablepdf <input.pdf | dir_of_imgs> [lang]`
