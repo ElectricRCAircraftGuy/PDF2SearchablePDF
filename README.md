@@ -130,6 +130,8 @@ MORE MATURE PHASE:
 
 ## [v0.4.0] - 2020-03-14
 - Updated install.sh & pdf2searchablepdf.sh scripts to allow spaces in path names; fixes [issue #6](https://github.com/ElectricRCAircraftGuy/PDF2SearchablePDF/issues/6)
+- Move argument parsing code into `parse_args()` function inside pdf2searchablepdf.sh
+- Moved all main code into `main()` function inside pdf2searchablepdf.sh, and added `time` command to the call to `main` to time how long `main` takes to run
 
 ## [v0.3.0] - 2019-12-29
 - Added a big new feature to allow the user to convert a whole directory containing a bunch of images into a single, searchable pdf! 
