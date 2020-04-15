@@ -63,6 +63,8 @@ print_help() {
 
 print_version() {
     echo "pdf2searchablepdf version $VERSION"
+    echo "Author = $AUTHOR"
+    echo 'See `pdf2searchablepdf -h` for more info.'
 }
 
 parse_args() {
@@ -81,8 +83,6 @@ parse_args() {
     # Version
     if [ "$1" == "-v" ]; then
         print_version
-        echo "Author = $AUTHOR"
-        echo 'See `pdf2searchablepdf -h` for more info.'
         exit $EXIT_SUCCESS
     fi
 }
