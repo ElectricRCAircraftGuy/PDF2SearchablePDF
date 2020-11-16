@@ -117,7 +117,7 @@ main() {
         # Ensure file_list_path doesn't yet exist, so that this filename won't get included inside this file itself as
         # part of the list (useful in case this file was left around from a previous run)
         rm -f "$file_list_path" 
-        find "$dir_of_imgs"/* | sort -V > "$file_list_path"
+        find "$dir_of_imgs"/* |grep -v file_list.txt| sort -V > "$file_list_path"
 
         pdf_out="${dir_of_imgs}_searchable"
 
@@ -193,7 +193,7 @@ main() {
     duration_sec="$(( end - start ))"
     # Get duration in min too; see my ans here: 
     # https://stackoverflow.com/questions/12722095/how-do-i-use-floating-point-division-in-bash/58479867#58479867
-    duration_min="$(printf %.3f $(echo "$duration_sec/60" | bc -l))"
+    duration_min="$(LC_NUMERIC="en_US.UTF-8" printf %.3f $(echo "$duration_sec/60" | bc -l))"
     echo -e "\nTotal script run-time: $duration_sec sec ($duration_min min)."
 }
 
