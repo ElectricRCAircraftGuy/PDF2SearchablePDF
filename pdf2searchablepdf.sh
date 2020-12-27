@@ -25,6 +25,10 @@ EXIT_ERROR=1
 VERSION="0.4.0"
 AUTHOR="Gabriel Staples"
 
+# Force this script and the `printf` usage below to work for non-US locales.
+# See: https://stackoverflow.com/questions/12845638/how-do-i-change-the-decimal-separator-in-the-printf-command-in-bash/12845640#12845640.
+export LC_NUMERIC="en_US.UTF-8"
+
 print_help() {
     echo 'Purpose: convert "input.pdf" to a searchable PDF named "input_searchable.pdf"'
     echo 'by using tesseract to perform OCR (Optical Character Recognition) on the PDF.'
@@ -114,10 +118,10 @@ main() {
         # - Use "version sort", or `sort -V` to enforce proper sorting between numbers which are multiple digits vs
         #   1 digit--ex: "pg-1.tiff" and "pg-10.tiff", for instance. See here: https://unix.stackexchange.com/a/41659/114401
         file_list_path="${dir_of_imgs}/file_list.txt"
-        # Ensure file_list_path doesn't yet exist, so that this filename won't get included inside this file itself as
-        # part of the list (useful in case this file was left around from a previous run)
-        rm -f "$file_list_path"
-        find "$dir_of_imgs"/* | grep -v file_list.txt | sort -V > "$file_list_path"
+        # Don't include *.txt files, including the "file_list.txt" file itself in case it was left
+        # around in a previous run, in the file list.
+        find "$dir_of_imgs" -maxdepth 1 -mindepth 1 -not -type d -not -name '*.txt' | \
+            sort --version-sort > "$file_list_path"
 
         pdf_out="${dir_of_imgs}_searchable"
 
@@ -166,11 +170,13 @@ main() {
 
         echo "All TIF files created."
 
-        # 3. Create a text file containing a list of all of the generated tif files
-        # - Use "version sort", or `sort -V` to enforce proper sorting between numbers which are multiple digits vs
-        #   1 digit--ex: "pg-1.tiff" and "pg-10.tiff", for instance. See here: https://unix.stackexchange.com/a/41659/114401
+        # 3. Create a text file containing a list of all of the generated tif files - Use
+        # `--version-sort`, or `sort -V` to enforce proper sorting between numbers which are
+        # multiple digits vs 1 digit--ex: "pg-1.tiff" and "pg-10.tiff", for instance. See here:
+        # https://unix.stackexchange.com/a/41659/114401
         file_list_path="${temp_dir}/file_list.txt"
-        find "$temp_dir"/* | sort -V > "$file_list_path"
+        find "$temp_dir" -maxdepth 1 -mindepth 1 -not -type d -not -name '*.txt' | \
+            sort --version-sort > "$file_list_path"
 
         echo "Running tesseract OCR on all generated TIF images in the temporary working directory."
     fi
@@ -193,7 +199,7 @@ main() {
     duration_sec="$(( end - start ))"
     # Get duration in min too; see my ans here:
     # https://stackoverflow.com/questions/12722095/how-do-i-use-floating-point-division-in-bash/58479867#58479867
-    duration_min="$(LC_NUMERIC="en_US.UTF-8" printf %.3f $(echo "$duration_sec/60" | bc -l))"
+    duration_min="$(printf %.3f $(echo "$duration_sec/60" | bc -l))"
     echo -e "\nTotal script run-time: $duration_sec sec ($duration_min min)."
 }
 
