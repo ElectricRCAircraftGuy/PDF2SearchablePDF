@@ -2,10 +2,10 @@
 
 # pdf2searchablepdf
 # Gabriel Staples
-# Started: 9 Nov. 2019 
+# Started: 9 Nov. 2019
 # - Source code: https://github.com/ElectricRCAircraftGuy/PDF2SearchablePDF
 
-# Test runs: 
+# Test runs:
 #   Convert test pdfs:
 #     pdf2searchablepdf ./test_pdfs/test1.pdf
 #     pdf2searchablepdf ./test_pdfs/Wikipedia_pdf_screenshot.pdf
@@ -96,35 +96,35 @@ main() {
     # - See: https://stackoverflow.com/questions/59838/check-if-a-directory-exists-in-a-shell-script
     if [ -d "$1" ]; then
         # Convert a directory of images into a searchable pdf
-        
+
         # Remove trailing slash if there is one
         # - see: https://unix.stackexchange.com/questions/198045/how-to-strip-the-last-slash-of-the-directory-path/198049#198049
-        dir_of_imgs="${1%/}" 
+        dir_of_imgs="${1%/}"
         # echo "dir_of_imgs = \"$dir_of_imgs\"" # debugging
         temp_dir=""
-        
+
         echo "================================================================================="
         echo "1st parmeter is a directory, so we are assuming it contains a bunch of images"
         echo "you'd like converted to a PDF. PLEASE ENSURE THIS DIRECTORY CONTAINS ONLY IMAGES!"
         echo "Converting all files (images) inside directory \"$dir_of_imgs\""
         echo "into a searchable PDF."
         echo "================================================================================="
-        
+
         # Create a text file containing a list of all of the files in this dir
-        # - Use "version sort", or `sort -V` to enforce proper sorting between numbers which are multiple digits vs 
+        # - Use "version sort", or `sort -V` to enforce proper sorting between numbers which are multiple digits vs
         #   1 digit--ex: "pg-1.tiff" and "pg-10.tiff", for instance. See here: https://unix.stackexchange.com/a/41659/114401
         file_list_path="${dir_of_imgs}/file_list.txt"
         # Ensure file_list_path doesn't yet exist, so that this filename won't get included inside this file itself as
         # part of the list (useful in case this file was left around from a previous run)
-        rm -f "$file_list_path" 
+        rm -f "$file_list_path"
         find "$dir_of_imgs"/* | sort -V > "$file_list_path"
 
         pdf_out="${dir_of_imgs}_searchable"
 
         echo "Running tesseract OCR on all files (better be images) in the directory you provided."
-    else 
+    else
         # Convert a single input pdf into a searchable pdf
-        
+
         pdf_in="$1"
 
         echo "================================================================================="
@@ -154,20 +154,20 @@ main() {
         echo "- NB: each TIF file created is ~25MB, so ensure you have enough disk space for this"
         echo "  operation to complete successfully."
         # TODO: fix this in the future to print out a progress bar in the form of 1 dot every 10 sec, and a % complete
-        # every time another file is completed, based on how many total files there are in the pdf! Be sure to line wrap 
+        # every time another file is completed, based on how many total files there are in the pdf! Be sure to line wrap
         # ever 80 chars or so as well. This will require spinning off another process in the background that does a file
         # check once per second or so to monitor progress. Once all files are created I can kill the background process
         # which was doing that monitoring.
         pdftoppm -tiff -r 300 "$pdf_in" "$temp_dir/pg"
 
-        # FOR DEVELOPMENT TO SPEED THIS UP BY USING PREVIOUSLY-GENERATED FILES INSTEAD 
+        # FOR DEVELOPMENT TO SPEED THIS UP BY USING PREVIOUSLY-GENERATED FILES INSTEAD
         # (comment out the above command, & uncomment the below command):
         # cp "pdf2searchablepdf_temp_20191110-231200.594322352"/* "$temp_dir"
 
         echo "All TIF files created."
 
         # 3. Create a text file containing a list of all of the generated tif files
-        # - Use "version sort", or `sort -V` to enforce proper sorting between numbers which are multiple digits vs 
+        # - Use "version sort", or `sort -V` to enforce proper sorting between numbers which are multiple digits vs
         #   1 digit--ex: "pg-1.tiff" and "pg-10.tiff", for instance. See here: https://unix.stackexchange.com/a/41659/114401
         file_list_path="${temp_dir}/file_list.txt"
         find "$temp_dir"/* | sort -V > "$file_list_path"
@@ -191,7 +191,7 @@ main() {
 
     end="$SECONDS"
     duration_sec="$(( end - start ))"
-    # Get duration in min too; see my ans here: 
+    # Get duration in min too; see my ans here:
     # https://stackoverflow.com/questions/12722095/how-do-i-use-floating-point-division-in-bash/58479867#58479867
     duration_min="$(printf %.3f $(echo "$duration_sec/60" | bc -l))"
     echo -e "\nTotal script run-time: $duration_sec sec ($duration_min min)."
