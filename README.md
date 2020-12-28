@@ -45,10 +45,18 @@ Tested on Ubuntu 18.04 on 11 Nov 2019.
 
 ### Install:
 
-    git clone https://github.com/ElectricRCAircraftGuy/PDF2SearchablePDF.git
-    ./PDF2SearchablePDF/install.sh
-    sudo apt update
-    sudo apt install tesseract-ocr
+```bash
+git clone https://github.com/ElectricRCAircraftGuy/PDF2SearchablePDF.git
+PDF2SearchablePDF/install.sh
+sudo apt update
+sudo apt install tesseract-ocr
+
+# (Optional, but recommended) Run tests.
+PDF2SearchablePDF/run_tests.sh
+# Then, manually visually scan the output messages and inspect the 
+# output searchable PDF files to ensure everything looks like it worked 
+# correctly. 
+```
 
 ### Use:
 
