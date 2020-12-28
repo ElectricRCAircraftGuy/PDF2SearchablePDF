@@ -6,10 +6,16 @@ test() {
     echo -e "\n\n\n"
 }
 
-test test_imgs
-test test_pdfs/test1.pdf
-test test_pdfs/test1_edited_w_foxit.pdf
-# test test_pdfs/Wikipedia_pdf_screenshot.png
-test test_pdfs/Wikipedia_pdf_screenshot.pdf
+# First, ensure the user has installed `pdf2searchablepdf`
+if [ ! -f ~/bin/pdf2searchablepdf ]; then
+    echo "Installing pdf2searchablepdf"
+    ./install.sh
+fi
+
+test tests/imgs
+test tests/pdfs/test1.pdf
+test tests/pdfs/test1_edited_w_foxit.pdf
+# test tests/pdfs/Wikipedia_pdf_screenshot.png
+test tests/pdfs/Wikipedia_pdf_screenshot.pdf
 
 
