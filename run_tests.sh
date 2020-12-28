@@ -1,9 +1,14 @@
 #!/bin/bash
 
+test_num=0
+
 test_pdf2searchablepdf() {
-    echo -e ">>> Running 'pdf2searchablepdf $@' <<<"
+    ((test_num++))
+    echo -e "============================ START OF TEST $test_num ==============================="
+    echo -e "=== Running 'pdf2searchablepdf $@' ==="
+    echo -e "----------------------------------------------------------------------------"
     pdf2searchablepdf "$@"
-    echo -e "\n\n\n"
+    echo -e "=== END TEST $test_num ===\n"
 }
 
 # First, ensure the user has installed `pdf2searchablepdf`
@@ -23,16 +28,16 @@ test_pdf2searchablepdf -?
 # Print version
 test_pdf2searchablepdf -v
 
-# # Convert some PDFs into searchable PDFs
-# test_pdf2searchablepdf tests/pdfs/test1.pdf
-# test_pdf2searchablepdf tests/pdfs/test1_edited_w_foxit.pdf
-# test_pdf2searchablepdf tests/pdfs/Wikipedia_pdf_screenshot.pdf
+# Convert some PDFs into searchable PDFs
+test_pdf2searchablepdf tests/pdfs/test1.pdf
+test_pdf2searchablepdf tests/pdfs/test1_edited_w_foxit.pdf
+test_pdf2searchablepdf tests/pdfs/Wikipedia_pdf_screenshot.pdf
 
-# # Convert a whole directory of images into a single, searchable pdf:
-# test_pdf2searchablepdf tests/imgs
+# Convert a whole directory of images into a single, searchable pdf:
+test_pdf2searchablepdf tests/imgs
 
-# # Convert a single image (NOT IMPLEMENTED YET)
-# # test_pdf2searchablepdf tests/pdfs/Wikipedia_pdf_screenshot.png
+# Convert a single image (NOT IMPLEMENTED YET)
+# test_pdf2searchablepdf tests/pdfs/Wikipedia_pdf_screenshot.png
 
 
 

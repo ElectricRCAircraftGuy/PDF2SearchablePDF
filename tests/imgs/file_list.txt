@@ -1,5 +1,5 @@
-test_imgs/Selection_1.png
-test_imgs/Selection_8.png
-test_imgs/Selection_9.png
-test_imgs/Selection_10.png
-test_imgs/Wikipedia_pdf_screenshot.png
+tests/imgs/Selection_1.png
+tests/imgs/Selection_8.png
+tests/imgs/Selection_9.png
+tests/imgs/Selection_10.png
+tests/imgs/Wikipedia_pdf_screenshot.png

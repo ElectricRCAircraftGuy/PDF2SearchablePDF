@@ -118,12 +118,12 @@ main() {
         # echo "dir_of_imgs = \"$dir_of_imgs\"" # debugging
         temp_dir=""
 
-        echo "================================================================================="
+        echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         echo "1st parmeter is a directory, so we are assuming it contains a bunch of images"
         echo "you'd like converted to a PDF. PLEASE ENSURE THIS DIRECTORY CONTAINS ONLY IMAGES!"
         echo "Converting all files (images) inside directory \"$dir_of_imgs\""
         echo "into a searchable PDF."
-        echo "================================================================================="
+        echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
         # Create a text file containing a list of all of the files in this dir
         # - Use "version sort", or `sort -V` to enforce proper sorting between numbers which are multiple digits vs
@@ -142,9 +142,9 @@ main() {
 
         pdf_in="$1"
 
-        echo "================================================================================="
+        echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         echo "Converting input PDF ($pdf_in) into a searchable PDF"
-        echo "================================================================================="
+        echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
         # Strip file extension; see: https://stackoverflow.com/a/32584935/4561887
         pdf_in_no_ext="$(echo "$pdf_in" | rev | cut -f 2- -d '.' | rev)"
