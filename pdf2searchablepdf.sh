@@ -16,6 +16,8 @@ EXIT_ERROR=1
 VERSION="0.4.0"
 AUTHOR="Gabriel Staples"
 
+DEBUG_PRINTS_ON="true" # true or false
+
 # Force this script and the `printf` usage below to work for non-US locales.
 # See: https://stackoverflow.com/questions/12845638/how-do-i-change-the-decimal-separator-in-the-printf-command-in-bash/12845640#12845640.
 export LC_NUMERIC="en_US.UTF-8"
@@ -86,6 +88,12 @@ Tesseract Wiki: https://github.com/tesseract-ocr/tesseract/wiki.
 Source code: https://github.com/ElectricRCAircraftGuy/PDF2SearchablePDF
 "
 
+echo_debug() {
+    if [ "$DEBUG_PRINTS_ON" == "true" ]; then
+        echo "$@"
+    fi
+}
+
 print_help() {
     echo "$HELP_STR" | less -RFX
 }
@@ -101,17 +109,49 @@ parse_args() {
         exit $EXIT_ERROR
     fi
 
-    # Help menu
-    if [ "$1" == "-h" ] || [ "$1" == "-?" ]; then
-        print_help
-        exit $EXIT_SUCCESS
-    fi
+    # Process and then remove all matching args from the `$@` args list.
+    # - For argument parsing help in bash, see:
+    #   https://stackoverflow.com/questions/192249/how-do-i-parse-command-line-arguments-in-bash/14203146#14203146
+    for arg in "$@"
+    do
+    case $arg in
+        # Help menu
+        -h|-?|--help)
+            echo_debug "-h"
+            print_help
+            exit $EXIT_SUCCESS
+            ;;
+        -s=*|--searchpath=*)
+            SEARCHPATH="${i#*=}"
+            shift # past argument=value
+            ;;
+        -l=*|--lib=*)
+            LIBPATH="${i#*=}"
+            shift # past argument=value
+            ;;
+        --default)
+            DEFAULT=YES
+            shift # past argument with no value
+            ;;
+        *) # no match (default case)
+            # unknown option
+            # echo "ERROR: Unknown argument: \"$arg\""
+            # exit $EXIT_ERROR
+            ;;
+    esac
+    done
 
-    # Version
-    if [ "$1" == "-v" ]; then
-        print_version
-        exit $EXIT_SUCCESS
-    fi
+    echo "Number of positional args = $#"
+
+
+
+
+
+    # # Version
+    # if [ "$1" == "-v" ]; then
+    #     print_version
+    #     exit $EXIT_SUCCESS
+    # fi
 }
 
 main() {
@@ -231,7 +271,7 @@ main() {
 # ----------------------------------------------------------------------------------------------------------------------
 
 parse_args "$@"
-time main "$@"
+# time main "$@"
 echo "END OF pdf2searchablepdf."
 
 

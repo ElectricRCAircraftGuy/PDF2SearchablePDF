@@ -1,13 +1,12 @@
 #!/bin/bash
 
-test_num=0
-
 # See my ans: https://stackoverflow.com/a/60157372/4561887
 FULL_PATH_TO_HERE="$(realpath "$0")"
 DIRECTORY="$(dirname "$FULL_PATH_TO_HERE")"
 starting_dir="$(pwd)"
 cd "$DIRECTORY"
 
+test_num=0
 test_pdf2searchablepdf() {
     ((test_num++))
     echo -e "============================ START OF TEST $test_num ==============================="
