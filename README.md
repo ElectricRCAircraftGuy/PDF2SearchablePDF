@@ -7,7 +7,7 @@ It works! See Changelog below.
 
 Windows, Mac, and Linux:
 
-- Developed and tested primarily in **Linux** Ubuntu 18.04 and 20.04, but should run on any of the 3 operating systems I think.
+- Developed and tested primarily in **Linux** Ubuntu 16.04, 18.04, and 20.04, but should run on any of the 3 operating systems I think: Windows, Mac, and Linux.
 - For **Windows**, I think you can get it to run inside the [Windows Subsystem for Linux (WSL)](https://docs.microsoft.com/en-us/windows/wsl/install-win10), [Cygwin](https://www.cygwin.com/), or in the terminal provided with [Git for Windows](https://git-scm.com/download/win) (usually my preference when using Windows).
 
 **Usage:**  
