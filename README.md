@@ -3,6 +3,13 @@ It works! See Changelog below.
 
 # PDF2SearchablePDF
 
+**Operating Systems:**
+
+Windows, Mac, and Linux:
+
+- Developed and tested primarily in **Linux** Ubuntu 18.04 and 20.04, but should run on any of the 3 operating systems I think.
+- For **Windows**, I think you can get it to run inside the [Windows Subsystem for Linux (WSL)](https://docs.microsoft.com/en-us/windows/wsl/install-win10), [Cygwin](https://www.cygwin.com/), or in the terminal provided with [Git for Windows](https://git-scm.com/download/win) (usually my preference when using Windows).
+
 **Usage:**  
 `pdf2searchablepdf <input.pdf | dir_of_imgs> [lang]` = if the 1st argument is
 to an input pdf, then convert input.pdf to input_searchable.pdf using language
