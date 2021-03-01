@@ -37,21 +37,33 @@ $VERSION_SHORT_STR
 Purpose: convert \"input.pdf\" to a searchable PDF named \"input_searchable.pdf\"
 by using tesseract to perform OCR (Optical Character Recognition) on the PDF.
 
-Usage:    '$SCRIPT_NAME <input.pdf | dir_of_imgs> [lang]' = if the 1st argument is
-            to an input pdf, then convert input.pdf to input_searchable.pdf using language
-            \"lang\" for OCR. Otherwise, if the 1st argument is a path to a directory containing
-            a bunch of images, convert the whole directory of images into a single PDF, using
-            language \"lang\" for OCR!
-          '$SCRIPT_NAME'    = print help menu
-          '$SCRIPT_NAME -h' = print help menu
-          '$SCRIPT_NAME -?' = print help menu
-          '$SCRIPT_NAME -v' = print author & version
+Usage:
 
-Examples: '$SCRIPT_NAME mypdf.pdf deu' = convert mypdf.pdf to a searchable PDF, using
-            German text OCR, or
-          '$SCRIPT_NAME mypdf.pdf' for English text OCR (the default).
-          '$SCRIPT_NAME dir_of_imgs' = convert all images in this directory, \"dir_of_imgs\",
-            to a single, searchable PDF.
+    $SCRIPT_NAME <input.pdf|dir_of_imgs> [lang]
+            If the 1st argument is to an input pdf, then convert input.pdf to input_searchable.pdf
+            using language \"lang\" for OCR. Otherwise, if the 1st argument is a path to a directory
+            containing a bunch of images, convert the whole directory of images into a single PDF,
+            using language \"lang\" for OCR!
+    $SCRIPT_NAME
+            print help menu
+    $SCRIPT_NAME -h
+            print help menu
+    $SCRIPT_NAME -?
+            print help menu
+    $SCRIPT_NAME -v
+            print author & version
+
+Examples:
+
+    $SCRIPT_NAME mypdf.pdf deu
+            convert mypdf.pdf to a searchable PDF, using German text OCR, or
+    $SCRIPT_NAME mypdf.pdf
+            for English text OCR (the default).
+    $SCRIPT_NAME dir_of_imgs
+            convert all images in this directory, \"dir_of_imgs\", to a single, searchable PDF.
+    $SCRIPT_NAME .
+            Convert all images in the present directory, indicated by '.', to a single, searchable
+            PDF.
 
 [lang]
     The optional [lang] argument allows you to perform OCR in your language of choice.
