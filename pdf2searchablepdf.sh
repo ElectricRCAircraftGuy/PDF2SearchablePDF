@@ -17,7 +17,7 @@ start=$SECONDS
 RETURN_CODE_SUCCESS=0
 RETURN_CODE_ERROR=1
 
-VERSION="0.4.0"
+VERSION="0.5.0"
 AUTHOR="Gabriel Staples"
 
 DEBUG_PRINTS_ON="false" # true or false; can also be passed in as an option: `-d` or `--debug`
@@ -130,7 +130,10 @@ print_version() {
 # Sample test commands I can run
 # This test code is not in a "complete" state by any means. It's more of a proof-of-concept at the
 # moment. Cmd: `pdf2searchablepdf --run_tests`
+# TODO: Link this to the "run_tests.sh" file in this directory as well!
 run_tests() {
+    echo "THIS FEATURE IS A WORK-IN-PROGRESS"
+
     echo -e "\nTEST 1:"
     $SCRIPT_NAME rr -upw 2221 -d 2 3 --debug
     echo ""
