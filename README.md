@@ -15,8 +15,8 @@ It works! See Changelog below.
     1. [Usage:](#usage)
     1. [Image size notes:](#image-size-notes)
 1. [Quick Start:](#quick-start)
-        1. [Install:](#install)
-        1. [Use:](#use)
+    1. [Install:](#install)
+    1. [Use:](#use)
 1. [Dependencies:](#dependencies)
     1. [You Must Install these:](#you-must-install-these)
     1. [It also relies on these, but they come pre-installed on Ubuntu 18:](#it-also-relies-on-these-but-they-come-pre-installed-on-ubuntu-18)
@@ -151,7 +151,7 @@ See here: https://askubuntu.com/questions/473843/how-to-turn-a-pdf-into-a-text-s
 Tested on Ubuntu 18.04 on 11 Nov 2019.
 
 <a id="install"></a>
-### Install:
+## Install:
 
 ```bash
 git clone https://github.com/ElectricRCAircraftGuy/PDF2SearchablePDF.git
@@ -167,7 +167,7 @@ PDF2SearchablePDF/run_tests.sh
 ```
 
 <a id="use"></a>
-### Use:
+## Use:
 
     pdf2searchablepdf mypdf.pdf
 
