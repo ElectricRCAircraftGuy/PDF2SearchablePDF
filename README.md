@@ -258,7 +258,7 @@ MORE MATURE PHASE:
 <a id="v050---2021-03-02"></a>
 ## [v0.5.0] - 2021-03-02
 - Massively improved the way argument parsing is done.
-- Added additional parsing options for debug prints and converting user-password-protected PDFs. Use the `-upw <password>` option to pass in a PDF's user password to be able to open and convert it.
+- Added additional parsing options for debug prints and converting user-password-protected PDFs. Use the `-upw <password>` option to pass in a PDF's user password to be able to open and convert it. This works great on my password-protected home mortgage documents scanned and sent to me from the title company!
 
 <a id="v040---2020-03-14"></a>
 ## [v0.4.0] - 2020-03-14
