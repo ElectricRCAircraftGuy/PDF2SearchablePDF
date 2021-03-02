@@ -1,30 +1,131 @@
-# Status
-It works! See Changelog below.
+[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FElectricRCAircraftGuy%2FPDF2SearchablePDF&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=views+%28today+%2F+total%29&edge_flat=false)](https://hits.seeyoufarm.com)
 
 # PDF2SearchablePDF
 
-**Operating Systems:**
+# Status
+It works! See Changelog below.
+
+# Table of Contents
+<details>
+<summary><b>(click to expand)</b></summary>
+<!-- MarkdownTOC -->
+
+1. [Description:](#description)
+    1. [Operating Systems:](#operating-systems)
+    1. [Usage:](#usage)
+    1. [Image size notes:](#image-size-notes)
+1. [Quick Start:](#quick-start)
+        1. [Install:](#install)
+        1. [Use:](#use)
+1. [Dependencies:](#dependencies)
+    1. [You Must Install these:](#you-must-install-these)
+    1. [It also relies on these, but they come pre-installed on Ubuntu 18:](#it-also-relies-on-these-but-they-come-pre-installed-on-ubuntu-18)
+1. [PDF2SearchablePDF Installation:](#pdf2searchablepdf-installation)
+1. [Sample run and output:](#sample-run-and-output)
+1. [Changelog](#changelog)
+    1. [\[v0.5.0\] - 2021-03-02](#v050---2021-03-02)
+    1. [\[v0.4.0\] - 2020-03-14](#v040---2020-03-14)
+    1. [\[v0.3.0\] - 2019-12-29](#v030---2019-12-29)
+    1. [\[v0.2.0\] - 2019-12-29](#v020---2019-12-29)
+    1. [\[v0.1.0\] - 2019-11-10](#v010---2019-11-10)
+1. [Alternative Software:](#alternative-software)
+1. [KEYWORDS](#keywords)
+
+<!-- /MarkdownTOC -->
+</details>
+
+
+<a id="description"></a>
+# Description:
+`tesseract` has the ability to do OCR (Optical Character Recognition) on image files, but unfortunately NOT on PDF files as inputs. This is unfortunate, as it means it's a pain to try to convert a PDF to a searchable PDF, so this program scripts the process using existing tools in order to make it stupid-simple for ANYONE to use!
+
+<a id="operating-systems"></a>
+## Operating Systems:
 
 Windows (untested, but I think it would work), Mac (untested, but should work), and Linux (tested and works):
 
 - Developed and tested primarily in **Linux** Ubuntu 16.04, 18.04, and 20.04, but should run on any of the 3 operating systems I think: Windows, Mac, and Linux.
 - For **Windows**, I think you can get it to run inside the [Windows Subsystem for Linux (WSL)](https://docs.microsoft.com/en-us/windows/wsl/install-win10), [Cygwin](https://www.cygwin.com/), or in the terminal provided with [Git for Windows](https://git-scm.com/download/win) (usually my preference when using Windows).
 
-**Usage:**  
-`pdf2searchablepdf <input.pdf | dir_of_imgs> [lang]` = if the 1st argument is
-to an input pdf, then convert input.pdf to input_searchable.pdf using language
-"lang" for OCR. Otherwise, if the 1st argument is a path to a directory containing
-a bunch of images, convert the whole directory of images into a single PDF, using
-language "lang" for OCR!
+<a id="usage"></a>
+## Usage:
 
 **See help menu for full details & more examples:**  
-`pdf2searchablepdf -h`
+```bash
+pdf2searchablepdf -h
+```
 
-Examples: 
+From the help menu:
 
-1. `pdf2searchablepdf input.pdf` = voila! "input_searchable.pdf" has now been created and has searchable text!
-1. `pdf2searchablepdf input.pdf deu` = same as above except perform Optical Character Recognition (OCR) for German text instead of using the default of English. 
-1. `pdf2searchablepdf my_dir_of_images` = convert all images inside directory "my_dir_of_images" into a single, searchable PDF!
+> pdf2searchablepdf ('pdf2searchablepdf') version 0.5.0
+> 
+> Purpose: convert "input.pdf" to a searchable PDF named "input_searchable.pdf"
+> by using tesseract to perform OCR (Optical Character Recognition) on the PDF.
+> 
+> Usage:
+> 
+>     pdf2searchablepdf [options] <input.pdf|dir_of_imgs> [lang]
+>             If the 1st positional argument (after options) is to an input pdf, then convert
+>             input.pdf to input_searchable.pdf using language "lang" for OCR. Otherwise, if the 1st
+>             argument is a path to a directory containing a bunch of images, convert the whole
+>             directory of images into a single PDF, using language "lang" for OCR!
+>     pdf2searchablepdf
+>             print help menu, then exit
+> 
+>   Options:
+> 
+>     [-h|-?|--help]
+>             print help menu, then exit
+>     [-v|--version]
+>             print author & version, then exit
+>     [-d|--debug]
+>             Turn debug prints on while running the script
+>     [-upw <password>]
+>             Specify the user password to open and read the PDF file. This option is passed directly
+>             through to the 'pdftoppm' cmd used internally to convert the PDF to images for OCR.
+>     [--run_tests]
+>             Run unit tests for this program.
+> 
+> Examples:
+> 
+>     pdf2searchablepdf mypdf.pdf deu
+>             Convert mypdf.pdf to a searchable PDF, using German text OCR, or
+>     pdf2searchablepdf mypdf.pdf
+>             Convert mypdf.pdf to a searchable PDF, using English text OCR (the default).
+>     pdf2searchablepdf mypdf.pdf --debug
+>             Same as above, except also print out the debug prints.
+>     pdf2searchablepdf dir_of_imgs
+>             Convert all images in this directory, "dir_of_imgs", to a single, searchable PDF.
+>     pdf2searchablepdf .
+>             Convert all images in the present directory, indicated by '.', to a single, searchable
+>             PDF.
+>     pdf2searchablepdf -upw 1234 mypdf.pdf
+>             Convert mypdf.pdf to a searchable PDF, using English text OCR, while using the user
+>             password "1234" to open up and read the PDF.
+>     pdf2searchablepdf mypdf.pdf -upw 1234
+>             Same as above.
+> 
+> Option Details:
+> 
+>     [lang]
+>         The optional [lang] argument allows you to perform OCR in your language of choice. This
+>         parameter will be passed on to tesseract. You must use ISO 639-2 3-letter language codes.
+>         Ex: "deu" for German, "dan" for Danish, "eng" for English, etc. See the "LANGUAGES"
+>         section of the tesseract man pages ('man tesseract') for a complete list. If the [lang]
+>         parameter is not given, English will be used by default. If you don't have a desired
+>         language installed, it may be obtained from one of the following 3 repos (see tesseract man
+>         pages for details):
+>           - https://github.com/tesseract-ocr/tessdata_fast
+>           - https://github.com/tesseract-ocr/tessdata_best
+>           - https://github.com/tesseract-ocr/tessdata
+>         To install a new language, simply download the respective "*.traineddata" file from one of
+>         the 3 repos above and copy it to your tesseract installation's "tessdata" directory.
+>         See "Post-Install Instructions" here:
+>         https://github.com/tesseract-ocr/tessdoc/blob/master/Compiling-%E2%80%93-GitInstallation.md#post-install-instructions
+
+
+<a id="image-size-notes"></a>
+## Image size notes:
 
 *Note that when converting an entire directory of images, if the images are large (ex: jpeg images at 3MB each) when you start, your searchable PDF at the end will be very large too! Simply sum the sizes of all the images to know how big the final PDF file will be!* To reduce its size, one quick-and-easy way is to compress the jpeg images using `jpegoptim` *before* you call `pdf2searchablepdf`. Read more about `jpegoptim` here: https://www.tecmint.com/optimize-and-compress-jpeg-or-png-batch-images-linux-commandline/.  
 
@@ -42,14 +143,14 @@ Compress all the images, then convert all of them to a single, searchable PDF:
 
 For my particular case, with 7 jpeg images originally in the 2.5 to 3MB size range, the end result without jpegoptim was a 20 MB PDF, which is too large to email! By calling `jpegoptim --size=500k` as shown above, first, it shrunk the image size to approx. 500kB each, which meant the final PDF size was about 3.5MB instead of 20MB! Big improvement! Now I can email the file, and the images still look pretty good!
 
-# Description:
-`tesseract` has the ability to do OCR (Optical Character Recognition) on image files, but unfortunately NOT on PDF files as inputs. This is unfortunate, as it means it's a pain to try to convert a PDF to a searchable PDF, so this program scripts the process using existing tools in order to make it stupid-simple for ANYONE to use!
 
+<a id="quick-start"></a>
 # Quick Start:
 See here: https://askubuntu.com/questions/473843/how-to-turn-a-pdf-into-a-text-searchable-pdf/1187881#1187881
 
 Tested on Ubuntu 18.04 on 11 Nov 2019.
 
+<a id="install"></a>
 ### Install:
 
 ```bash
@@ -65,6 +166,7 @@ PDF2SearchablePDF/run_tests.sh
 # correctly. 
 ```
 
+<a id="use"></a>
 ### Use:
 
     pdf2searchablepdf mypdf.pdf
@@ -73,9 +175,12 @@ You'll now have a pdf called **mypdf_searchable.pdf**, which contains searchable
 
 Done. The wrapper has no python dependencies, as it's currently written entirely in bash.
 
+
+<a id="dependencies"></a>
 # Dependencies:
 This has been tested on Ubuntu 18. It requires the following programs:
 
+<a id="you-must-install-these"></a>
 ## You Must Install these:
 
     sudo apt update 
@@ -83,10 +188,13 @@ This has been tested on Ubuntu 18. It requires the following programs:
 
 See: https://github.com/tesseract-ocr/tesseract/wiki
 
+<a id="it-also-relies-on-these-but-they-come-pre-installed-on-ubuntu-18"></a>
 ## It also relies on these, but they come pre-installed on Ubuntu 18:
 
 1. `pdftoppm`
 
+
+<a id="pdf2searchablepdf-installation"></a>
 # PDF2SearchablePDF Installation:
 Simply run the "install.sh" script to create a symbolic link to `pdf2searchablepdf` in your "~/bin" directory:
 
@@ -94,6 +202,8 @@ Simply run the "install.sh" script to create a symbolic link to `pdf2searchablep
 
 In short, just follow the "Install" instructions above under the "Quick Start" section.
 
+
+<a id="sample-run-and-output"></a>
 # Sample run and output:
 
 ```
@@ -125,6 +235,8 @@ END OF pdf2searchablepdf.
 
 ```
 
+
+<a id="changelog"></a>
 # Changelog
 - Newest on top
 - Follows Semantic Versioning: MAJOR.MINOR.PATCH; see: https://semver.org/ for rules & FAQ.
@@ -143,31 +255,44 @@ MORE MATURE PHASE:
 2. MINOR version when you add functionality in a backwards compatible manner, and  
 3. PATCH version when you make backwards compatible bug fixes.  
 
+<a id="v050---2021-03-02"></a>
+## [v0.5.0] - 2021-03-02
+- Massively improved the way argument parsing is done.
+- Added additional parsing options for debug prints and converting user-password-protected PDFs. Use the `-upw <password>` option to pass in a PDF's user password to be able to open and convert it.
+
+<a id="v040---2020-03-14"></a>
 ## [v0.4.0] - 2020-03-14
 - Updated install.sh & pdf2searchablepdf.sh scripts to allow spaces in path names; fixes [issue #6](https://github.com/ElectricRCAircraftGuy/PDF2SearchablePDF/issues/6)
 - Move argument parsing code into `parse_args()` function inside pdf2searchablepdf.sh
 - Moved all main code into `main()` function inside pdf2searchablepdf.sh, and added `time` command to the call to `main` to time how long `main` takes to run
 
+<a id="v030---2019-12-29"></a>
 ## [v0.3.0] - 2019-12-29
 - Added a big new feature to allow the user to convert a whole directory containing a bunch of images into a single, searchable pdf! 
 - New usage: `pdf2searchablepdf <input.pdf | dir_of_imgs> [lang]`
 - Also added print of run duration at end in units of minutes too instead of just seconds.
 
+<a id="v020---2019-12-29"></a>
 ## [v0.2.0] - 2019-12-29
 - Improved help menu, which is accessible via: `pdf2searchablepdf -h` or `pdf2searchablepdf -?` or `pdf2searchablepdf`
 - Added ability to set the OCR language; new usage: `pdf2searchablepdf <input.pdf> [lang]`
 
+<a id="v010---2019-11-10"></a>
 ## [v0.1.0] - 2019-11-10
 - Initial release. It works! 
 - Can only convert a pdf to a searchable pdf in English, which is tesseract's default setting.
 - Usage: `pdf2searchablepdf <input.pdf>`
 
+
+<a id="alternative-software"></a>
 # Alternative Software:
 1. https://github.com/tesseract-ocr/tesseract/wiki/User-Projects-%E2%80%93-3rdParty#4-others-utilities-tools-command-line-interfaces-cli-etc
     1. https://github.com/jbarlow83/OCRmyPDF
     1. https://github.com/LeoFCardoso/pdf2pdfocr
 - See my issue here: https://github.com/ElectricRCAircraftGuy/PDF2SearchablePDF/issues/5. Are these alternatives better than my project here? Do I offer something they don't? Should I continue this project or just switch to using one of the projects listed above? I need to investigate and find out more!
 
+
+<a id="keywords"></a>
 # KEYWORDS 
 (to make this repo more "Googlable"): 
 
