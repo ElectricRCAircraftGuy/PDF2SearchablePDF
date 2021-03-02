@@ -14,6 +14,7 @@ It works! See Changelog below.
     1. [Operating Systems:](#operating-systems)
     1. [Usage:](#usage)
     1. [Image size notes:](#image-size-notes)
+    1. [Compress your post-processed PDF:](#compress-your-post-processed-pdf)
 1. [Quick Start:](#quick-start)
     1. [Install:](#install)
     1. [Use:](#use)
@@ -142,6 +143,11 @@ Compress all the images, then convert all of them to a single, searchable PDF:
     pdf2searchablepdf dir_of_imgs           # now make 1 searchable pdf out of all of them!
 
 For my particular case, with 7 jpeg images originally in the 2.5 to 3MB size range, the end result without jpegoptim was a 20 MB PDF, which is too large to email! By calling `jpegoptim --size=500k` as shown above, first, it shrunk the image size to approx. 500kB each, which meant the final PDF size was about 3.5MB instead of 20MB! Big improvement! Now I can email the file, and the images still look pretty good!
+
+<a id="compress-your-post-processed-pdf"></a>
+## Compress your post-processed PDF:
+
+For some PDF compression options, see my answer here: [AskUbuntu.com: How can I reduce the file size of a scanned PDF file?](https://askubuntu.com/questions/113544/how-can-i-reduce-the-file-size-of-a-scanned-pdf-file/1303196#1303196).
 
 
 <a id="quick-start"></a>
