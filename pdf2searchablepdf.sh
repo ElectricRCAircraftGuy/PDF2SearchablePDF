@@ -4,14 +4,18 @@
 # Gabriel Staples
 # Started: 9 Nov. 2019
 # - Source code: https://github.com/ElectricRCAircraftGuy/PDF2SearchablePDF
-
+#
+# Note to self: see also my
+# [git-blametool.sh](https://github.com/ElectricRCAircraftGuy/eRCaGuy_dotfiles/blob/master/useful_scripts/git-blametool.sh)
+# script for help on bash syntax and examples of advanced option parsing in bash.
+#
 # Test runs:
 # See "run_tests.sh"
 
 start=$SECONDS
 
-EXIT_SUCCESS=0
-EXIT_ERROR=1
+RETURN_CODE_SUCCESS=0
+RETURN_CODE_ERROR=1
 
 VERSION="0.4.0"
 AUTHOR="Gabriel Staples"
@@ -24,7 +28,7 @@ export LC_NUMERIC="en_US.UTF-8"
 
 
 SCRIPT_NAME="$(basename "$0")"
-VERSION_SHORT_STR="pdf2searchablepdf (run as '$SCRIPT_NAME') version $VERSION"
+VERSION_SHORT_STR="pdf2searchablepdf ('$SCRIPT_NAME') version $VERSION"
 VERSION_LONG_STR="\
 $VERSION_SHORT_STR
 Author = $AUTHOR
@@ -41,19 +45,25 @@ by using tesseract to perform OCR (Optical Character Recognition) on the PDF.
 
 Usage:
 
-    $SCRIPT_NAME <input.pdf|dir_of_imgs> [lang]
-            If the 1st argument is to an input pdf, then convert input.pdf to input_searchable.pdf
-            using language \"lang\" for OCR. Otherwise, if the 1st argument is a path to a directory
-            containing a bunch of images, convert the whole directory of images into a single PDF,
-            using language \"lang\" for OCR!
+    $SCRIPT_NAME [options] <input.pdf|dir_of_imgs> [lang]
+            If the 1st positional argument (after options) is to an input pdf, then convert
+            input.pdf to input_searchable.pdf using language \"lang\" for OCR. Otherwise, if the 1st
+            argument is a path to a directory containing a bunch of images, convert the whole
+            directory of images into a single PDF, using language \"lang\" for OCR!
     $SCRIPT_NAME
-            print help menu
-    $SCRIPT_NAME -h
-            print help menu
-    $SCRIPT_NAME -?
-            print help menu
-    $SCRIPT_NAME -v
-            print author & version
+            print help menu, then exit
+
+  Options:
+
+    [-h|-?|--help]
+            print help menu, then exit
+    [-v|--version]
+            print author & version, then exit
+    [-d|--debug]
+            Turn debug prints on while running the script
+    [-upw <password>]
+            Specify the user password to open and read the PDF file. This option is passed directly
+            through to the 'pdftoppm' cmd used internally to convert the PDF to images for OCR.
 
 Examples:
 
@@ -67,30 +77,35 @@ Examples:
             Convert all images in the present directory, indicated by '.', to a single, searchable
             PDF.
 
-[lang]
-    The optional [lang] argument allows you to perform OCR in your language of choice.
-    This parameter will be passed on to tesseract. You must use ISO 639-2 3-letter language
-    codes. Ex: \"deu\" for German, \"dan\" for Danish, \"eng\" for English, etc.
-    See the \"LANGUAGES\" section of the tesseract man pages ('man tesseract') for a
-    complete list. If the [lang] parameter is not given, English will be used by default.
-    If you don't have a desired language installed, it may be obtained from one of the
-    following 3 repos (see tesseract man pages for details):
-      - https://github.com/tesseract-ocr/tessdata_fast
-      - https://github.com/tesseract-ocr/tessdata_best
-      - https://github.com/tesseract-ocr/tessdata
-    To install a new language, simply download the respective \"*.traineddata\" file from one of
-    the 3 repos above and copy it to your tesseract installation's \"tessdata\" directory.
-    See \"Post-Install Instructions\" here:
-    https://github.com/tesseract-ocr/tessdoc/blob/master/Compiling-%E2%80%93-GitInstallation.md#post-install-instructions
+Option Details:
 
-Tesseract Wiki: https://github.com/tesseract-ocr/tesseract/wiki.
+    [lang]
+        The optional [lang] argument allows you to perform OCR in your language of choice. This
+        parameter will be passed on to tesseract. You must use ISO 639-2 3-letter language codes.
+        Ex: \"deu\" for German, \"dan\" for Danish, \"eng\" for English, etc. See the \"LANGUAGES\"
+        section of the tesseract man pages ('man tesseract') for a complete list. If the [lang]
+        parameter is not given, English will be used by default. If you don't have a desired
+        language installed, it may be obtained from one of the following 3 repos (see tesseract man
+        pages for details):
+          - https://github.com/tesseract-ocr/tessdata_fast
+          - https://github.com/tesseract-ocr/tessdata_best
+          - https://github.com/tesseract-ocr/tessdata
+        To install a new language, simply download the respective \"*.traineddata\" file from one of
+        the 3 repos above and copy it to your tesseract installation's \"tessdata\" directory.
+        See \"Post-Install Instructions\" here:
+        https://github.com/tesseract-ocr/tessdoc/blob/master/Compiling-%E2%80%93-GitInstallation.md#post-install-instructions
 
-Source code: https://github.com/ElectricRCAircraftGuy/PDF2SearchablePDF
+Tesseract Wiki:
+https://github.com/tesseract-ocr/tesseract/wiki.
+
+Source code:
+https://github.com/ElectricRCAircraftGuy/PDF2SearchablePDF
 "
 
+# A "debug" version of `echo`, to only print when `DEBUG_PRINTS_ON` is `true`.
 echo_debug() {
     if [ "$DEBUG_PRINTS_ON" == "true" ]; then
-        echo "$@"
+        echo $@
     fi
 }
 
@@ -103,45 +118,53 @@ print_version() {
 }
 
 parse_args() {
+    # For advanced argument parsing help and demo, see:
+    # https://stackoverflow.com/a/14203146/4561887.
+
     if [ $# -eq 0 ]; then
         echo "No arguments supplied"
         print_help
-        exit $EXIT_ERROR
+        exit $RETURN_CODE_ERROR
     fi
 
-    # Process and then remove all matching args from the `$@` args list.
-    # - For argument parsing help in bash, see:
-    #   https://stackoverflow.com/questions/192249/how-do-i-parse-command-line-arguments-in-bash/14203146#14203146
-    for arg in "$@"
-    do
-    case $arg in
-        # Help menu
-        -h|-?|--help)
-            echo_debug "-h"
-            print_help
-            exit $EXIT_SUCCESS
-            ;;
-        -s=*|--searchpath=*)
-            SEARCHPATH="${i#*=}"
-            shift # past argument=value
-            ;;
-        -l=*|--lib=*)
-            LIBPATH="${i#*=}"
-            shift # past argument=value
-            ;;
-        --default)
-            DEFAULT=YES
-            shift # past argument with no value
-            ;;
-        *) # no match (default case)
-            # unknown option
-            # echo "ERROR: Unknown argument: \"$arg\""
-            # exit $EXIT_ERROR
-            ;;
-    esac
-    done
+    POSITIONAL_ARGS_ARRAY=()
+    while [[ $# -gt 0 ]]; do
+        arg="$1"
+        # first letter of `arg`; see: https://stackoverflow.com/a/10218528/4561887
+        first_letter="${arg:0:1}"
 
-    echo "Number of positional args = $#"
+        case $arg in
+            # Help menu
+            "-h"|"-?"|"--help")
+                print_help
+                exit $RETURN_CODE_SUCCESS
+                ;;
+            # Version
+            "-v"|"--version")
+                print_version
+                exit $RETURN_CODE_SUCCESS
+                ;;
+            # Unknown option (ie: unmatched in the switch cases above)
+            *)
+                # Only store into the position arguments array those arguments which do NOT
+                # begin with "-"!
+                if [ "$first_letter" != "-" ]; then
+                    POSITIONAL_ARGS_ARRAY+=("$1") # save it in an array for later
+                fi
+
+                shift # past argument
+
+                if [ "$arg" == "-L" ] || [ "$arg" == "-S" ] || [ "$arg" == "--contents" ]; then
+                    shift # past value
+                fi
+                ;;
+        esac
+    done
+    ########
+    # echo "POSITIONAL_ARGS_ARRAY contains: '${POSITIONAL_ARGS_ARRAY[*]}'." # for debugging
+
+    array_len=${#POSITIONAL_ARGS_ARRAY[@]}
+    echo "Number of positional args = $array_len"
 
 
 
@@ -150,7 +173,7 @@ parse_args() {
     # # Version
     # if [ "$1" == "-v" ]; then
     #     print_version
-    #     exit $EXIT_SUCCESS
+    #     exit $RETURN_CODE_SUCCESS
     # fi
 }
 
@@ -226,6 +249,13 @@ main() {
         # check once per second or so to monitor progress. Once all files are created I can kill the background process
         # which was doing that monitoring.
         pdftoppm -tiff -r 300 "$pdf_in" "$temp_dir/pg"
+
+        ############# CHECK FOR ERRORS HERE FROM pdftoppm!
+        # ret_code="$?"
+        # if [ "$ret_code" -ne "$RETURN_CODE_SUCCESS" ]; then
+        #     echo "Warning: 'git blametool' failed to get git commit hash."
+        #     commit_hash=""
+        # fi
 
         # FOR DEVELOPMENT TO SPEED THIS UP BY USING PREVIOUSLY-GENERATED FILES INSTEAD
         # (comment out the above command, & uncomment the below command):
