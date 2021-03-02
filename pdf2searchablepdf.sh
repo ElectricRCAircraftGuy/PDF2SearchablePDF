@@ -20,7 +20,7 @@ RETURN_CODE_ERROR=1
 VERSION="0.4.0"
 AUTHOR="Gabriel Staples"
 
-DEBUG_PRINTS_ON="true" # true or false
+DEBUG_PRINTS_ON="false" # true or false; can also be passed in as an option: `-d` or `--debug`
 
 # Force this script and the `printf` usage below to work for non-US locales.
 # See: https://stackoverflow.com/questions/12845638/how-do-i-change-the-decimal-separator-in-the-printf-command-in-bash/12845640#12845640.
@@ -64,18 +64,27 @@ Usage:
     [-upw <password>]
             Specify the user password to open and read the PDF file. This option is passed directly
             through to the 'pdftoppm' cmd used internally to convert the PDF to images for OCR.
+    [--run_tests]
+            Run unit tests for this program.
 
 Examples:
 
     $SCRIPT_NAME mypdf.pdf deu
-            convert mypdf.pdf to a searchable PDF, using German text OCR, or
+            Convert mypdf.pdf to a searchable PDF, using German text OCR, or
     $SCRIPT_NAME mypdf.pdf
-            for English text OCR (the default).
+            Convert mypdf.pdf to a searchable PDF, using English text OCR (the default).
+    $SCRIPT_NAME mypdf.pdf --debug
+            Same as above, except also print out the debug prints.
     $SCRIPT_NAME dir_of_imgs
-            convert all images in this directory, \"dir_of_imgs\", to a single, searchable PDF.
+            Convert all images in this directory, \"dir_of_imgs\", to a single, searchable PDF.
     $SCRIPT_NAME .
             Convert all images in the present directory, indicated by '.', to a single, searchable
             PDF.
+    $SCRIPT_NAME -upw 1234 mypdf.pdf
+            Convert mypdf.pdf to a searchable PDF, using English text OCR, while using the user
+            password \"1234\" to open up and read the PDF.
+    $SCRIPT_NAME mypdf.pdf -upw 1234
+            Same as above.
 
 Option Details:
 
@@ -105,6 +114,7 @@ https://github.com/ElectricRCAircraftGuy/PDF2SearchablePDF
 # A "debug" version of `echo`, to only print when `DEBUG_PRINTS_ON` is `true`.
 echo_debug() {
     if [ "$DEBUG_PRINTS_ON" == "true" ]; then
+        printf "DEBUG: "
         echo $@
     fi
 }
@@ -117,6 +127,23 @@ print_version() {
     echo "$VERSION_LONG_STR"
 }
 
+# Sample test commands I can run
+# This test code is not in a "complete" state by any means. It's more of a proof-of-concept at the
+# moment. Cmd: `pdf2searchablepdf --run_tests`
+run_tests() {
+    echo -e "\nTEST 1:"
+    $SCRIPT_NAME rr -upw 2221 -d 2 3 --debug
+    echo ""
+
+    echo -e "\nTEST 2:"
+    $SCRIPT_NAME rr -upw 2221 2 3 --debug
+    echo ""
+
+    echo -e "\nTEST 3:"
+    $SCRIPT_NAME rr -upw 2221 2 3 --debug
+    echo ""
+}
+
 parse_args() {
     # For advanced argument parsing help and demo, see:
     # https://stackoverflow.com/a/14203146/4561887.
@@ -126,6 +153,9 @@ parse_args() {
         print_help
         exit $RETURN_CODE_ERROR
     fi
+
+    user_password=""
+    lang="eng" # English
 
     POSITIONAL_ARGS_ARRAY=()
     while [[ $# -gt 0 ]]; do
@@ -144,52 +174,73 @@ parse_args() {
                 print_version
                 exit $RETURN_CODE_SUCCESS
                 ;;
+            # Debug prints on
+            "-d"|"--debug")
+                DEBUG_PRINTS_ON="true"
+                shift # past argument
+                ;;
+            # PDF user password
+            "-upw")
+                user_password="-upw $2"
+                shift # past argument
+                shift # past value
+                ;;
+            "--run_tests")
+                run_tests
+                exit $RETURN_CODE_SUCCESS
+                ;;
             # Unknown option (ie: unmatched in the switch cases above)
             *)
-                # Only store into the position arguments array those arguments which do NOT
-                # begin with "-"!
-                if [ "$first_letter" != "-" ]; then
-                    POSITIONAL_ARGS_ARRAY+=("$1") # save it in an array for later
+                if [ "$first_letter" == "-" ]; then
+                    echo "ERROR: Unknown option \"$arg\"."
+                    exit $RETURN_CODE_ERROR
                 fi
 
+                POSITIONAL_ARGS_ARRAY+=("$1") # save it in an array for later
                 shift # past argument
-
-                if [ "$arg" == "-L" ] || [ "$arg" == "-S" ] || [ "$arg" == "--contents" ]; then
-                    shift # past value
-                fi
                 ;;
         esac
     done
-    ########
-    # echo "POSITIONAL_ARGS_ARRAY contains: '${POSITIONAL_ARGS_ARRAY[*]}'." # for debugging
 
     array_len=${#POSITIONAL_ARGS_ARRAY[@]}
-    echo "Number of positional args = $array_len"
 
+    echo_debug "Number of positional args = $array_len"
+    echo_debug "POSITIONAL_ARGS_ARRAY contains: '${POSITIONAL_ARGS_ARRAY[*]}'."
+    echo_debug "user_password = $user_password"
 
+    if [ $array_len -ge 1 ]; then
+        pdf_in_OR_dir_of_imgs="${POSITIONAL_ARGS_ARRAY[0]}"
+        echo_debug "pdf_in_OR_dir_of_imgs = $pdf_in_OR_dir_of_imgs"
+    fi
 
+    if [ $array_len -ge 2 ]; then
+        lang="${POSITIONAL_ARGS_ARRAY[1]}"
+        echo_debug "lang = $lang"
+    fi
+}
 
-
-    # # Version
-    # if [ "$1" == "-v" ]; then
-    #     print_version
-    #     exit $RETURN_CODE_SUCCESS
-    # fi
+# program cleanup
+cleanup() {
+    # Delete temp dir
+    if [ "$temp_dir" != "" ]; then
+        echo "Removing temporary working directory at \"$temp_dir\"."
+        rm -rf "$temp_dir"
+        echo "Done!"
+    fi
 }
 
 main() {
     print_version
-    lang=${2:-eng}
     echo "Language = $lang"
 
     # Determine if the 1st argument is a directory (of images) or a file (input PDF)
     # - See: https://stackoverflow.com/questions/59838/check-if-a-directory-exists-in-a-shell-script
-    if [ -d "$1" ]; then
+    if [ -d "$pdf_in_OR_dir_of_imgs" ]; then
         # Convert a directory of images into a searchable pdf
 
         # Remove trailing slash if there is one
         # - see: https://unix.stackexchange.com/questions/198045/how-to-strip-the-last-slash-of-the-directory-path/198049#198049
-        dir_of_imgs="${1%/}"
+        dir_of_imgs="${pdf_in_OR_dir_of_imgs%/}"
         # echo "dir_of_imgs = \"$dir_of_imgs\"" # debugging
         temp_dir=""
 
@@ -215,7 +266,7 @@ main() {
     else
         # Convert a single input pdf into a searchable pdf
 
-        pdf_in="$1"
+        pdf_in="$pdf_in_OR_dir_of_imgs"
 
         echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         echo "Converting input PDF ($pdf_in) into a searchable PDF"
@@ -248,14 +299,14 @@ main() {
         # ever 80 chars or so as well. This will require spinning off another process in the background that does a file
         # check once per second or so to monitor progress. Once all files are created I can kill the background process
         # which was doing that monitoring.
-        pdftoppm -tiff -r 300 "$pdf_in" "$temp_dir/pg"
+        pdftoppm $user_password -tiff -r 300 "$pdf_in" "$temp_dir/pg"
 
-        ############# CHECK FOR ERRORS HERE FROM pdftoppm!
-        # ret_code="$?"
-        # if [ "$ret_code" -ne "$RETURN_CODE_SUCCESS" ]; then
-        #     echo "Warning: 'git blametool' failed to get git commit hash."
-        #     commit_hash=""
-        # fi
+        ret_code="$?"
+        if [ "$ret_code" -ne "$RETURN_CODE_SUCCESS" ]; then
+            echo "ERROR: 'pdftoppm' failed. ret_code = $ret_code"
+            cleanup
+            exit $ret_code
+        fi
 
         # FOR DEVELOPMENT TO SPEED THIS UP BY USING PREVIOUSLY-GENERATED FILES INSTEAD
         # (comment out the above command, & uncomment the below command):
@@ -281,12 +332,7 @@ main() {
     tesseract -l "$lang" "$file_list_path" "$pdf_out" pdf
     echo "Done! Searchable PDF generated at \"${pdf_out}.pdf\"."
 
-    # 5. Delete temp dir
-    if [ "$temp_dir" != "" ]; then
-        echo "Removing temporary working directory at \"$temp_dir\"."
-        rm -rf "$temp_dir"
-        echo "Done!"
-    fi
+    cleanup
 
     end="$SECONDS"
     duration_sec="$(( end - start ))"
@@ -301,7 +347,7 @@ main() {
 # ----------------------------------------------------------------------------------------------------------------------
 
 parse_args "$@"
-# time main "$@"
+time main
 echo "END OF pdf2searchablepdf."
 
 
