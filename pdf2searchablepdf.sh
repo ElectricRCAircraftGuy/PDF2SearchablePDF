@@ -230,6 +230,14 @@ cleanup() {
         rm -rf "$temp_dir"
         echo "Done!"
     fi
+
+    # Handle and print script timing information
+    end="$SECONDS"
+    duration_sec="$(( end - start ))"
+    # Get duration in min too; see my ans here:
+    # https://stackoverflow.com/questions/12722095/how-do-i-use-floating-point-division-in-bash/58479867#58479867
+    duration_min="$(printf %.3f $(echo "$duration_sec/60" | bc -l))"
+    echo -e "\nTotal script run-time: $duration_sec sec ($duration_min min)."
 }
 
 main() {
@@ -333,16 +341,17 @@ main() {
     echo "This could take some time."
     echo "Searchable PDF will be generated at \"${pdf_out}.pdf\"."
     tesseract -l "$lang" "$file_list_path" "$pdf_out" pdf
+
+    ret_code="$?"
+    if [ "$ret_code" -ne "$RETURN_CODE_SUCCESS" ]; then
+        echo "ERROR: 'tesseract' failed. ret_code = $ret_code"
+        cleanup
+        exit $ret_code
+    fi
+
     echo "Done! Searchable PDF generated at \"${pdf_out}.pdf\"."
 
     cleanup
-
-    end="$SECONDS"
-    duration_sec="$(( end - start ))"
-    # Get duration in min too; see my ans here:
-    # https://stackoverflow.com/questions/12722095/how-do-i-use-floating-point-division-in-bash/58479867#58479867
-    duration_min="$(printf %.3f $(echo "$duration_sec/60" | bc -l))"
-    echo -e "\nTotal script run-time: $duration_sec sec ($duration_min min)."
 }
 
 # ----------------------------------------------------------------------------------------------------------------------
