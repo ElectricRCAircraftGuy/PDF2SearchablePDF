@@ -43,10 +43,14 @@ It works! See Changelog below.
 <a id="operating-systems"></a>
 ## Operating Systems:
 
-Windows (untested, but I think it would work), Mac (untested, but should work), and Linux (tested and works):
+**Windows** (untested, but I think it would work), **Mac** (untested, but should work), and **Linux** (tested and works):
 
 - Developed and tested primarily in **Linux** Ubuntu 16.04, 18.04, and 20.04, but should run on any of the 3 operating systems I think: Windows, Mac, and Linux.
-- For **Windows**, I think you can get it to run inside the [Windows Subsystem for Linux (WSL)](https://docs.microsoft.com/en-us/windows/wsl/install-win10), [Cygwin](https://www.cygwin.com/), or in the terminal provided with [Git for Windows](https://git-scm.com/download/win) (usually my preference when using Windows).
+- For **Windows**, I think you can get it to run inside the [Windows Subsystem for Linux (WSL)](https://docs.microsoft.com/en-us/windows/wsl/install-win10), [Cygwin](https://www.cygwin.com/), or in the terminal provided with [Git for Windows][git_for_windows] (usually my preference when using Windows).
+    - Here are some options to install the [`tesseract`](https://github.com/tesseract-ocr/tesseract) OCR (Optical Character Recognition) program, which `pdf2searchablepdf` requires, in Windows. See also the official tesseract documentation on this [here](https://tesseract-ocr.github.io/tessdoc/Downloads.html) and [here](https://tesseract-ocr.github.io/tessdoc/Installation.html#windows).
+        1. [Probably the easiest/best]: get Windows tesseract .exe binary files directly from UB-Mannheim here: https://github.com/UB-Mannheim/tesseract/wiki.
+        1. Cygwin packages for tesseract: https://cygwin.com/cgi-bin2/package-grep.cgi?grep=tesseract&arch=x86_64.
+    - Once you get tesseract installed from the .exe file provided by UB-Mannheim above, for instance, I'm pretty sure you can then just install [Git for Windows][git_for_windows], open the bash terminal it provides, and run `pdf2searchablepdf` from there. This assumes that the .exe installer places `tesseract` in the Windows PATH so that you can call `tesseract` from the command-line/MS-DOS-prompt in Windows.
 
 <a id="usage"></a>
 ## Usage:
@@ -304,3 +308,5 @@ MORE MATURE PHASE:
 
 pdf 2 searchable pdf, pdftosearchablepdf, pdf to searchable pdf, make pdf searchable, perform ocr on pdf to make it searchable, extract text from pdf, pdf to text, how to make a PDF document searchable, how to make an unsearchable PDF document searchable, how to perform OCR (Optical Character Recognition) on a PDF image, linux convert directory of images into a single pdf, linux convert images to pdf, images to pdf, images2pdf, linux convert a folder of images into a single pdf, tif to pdf, tiff to pdf, png to pdf, bmp to pdf, jpg to pdf, jpeg to pdf, folder of pictures to pdf, ocr on pictures, ocr on images, pictures ocr to searchable pdf
 
+
+  [git_for_windows]: https://git-scm.com/download/win
