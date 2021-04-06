@@ -1,5 +1,5 @@
 
-How to generate Selection_1_searchable.hocr, Selection_1_searchable.pdf, Selection_1_searchable.txt:
+How to generate **Selection_1_searchable.hocr**, **Selection_1_searchable.pdf**, **Selection_1_searchable.txt**:
 
 ```bash
 # run this from the root of this repo
