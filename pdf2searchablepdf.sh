@@ -240,6 +240,42 @@ cleanup() {
     echo -e "\nTotal script run-time: $duration_sec sec ($duration_min min)."
 }
 
+# get the total number of pages in a PDF; technique 1.
+# See this ans here: https://stackoverflow.com/a/14736593/4561887
+# Usage (works on ALL PDFs--whether password-protected or not!):
+#       num_pgs="$(getNumPgsInPdf "path/to/mypdf.pdf")"
+# SUPER SLOW! Putting `time` just in front of the `strings` cmd shows it takes ~0.200 sec on a 142
+# pg PDF!
+getNumPgsInPdf() {
+    _pdf="$1"
+
+    _num_pgs="$(strings < "$_pdf" | sed -n 's|.*/Count -\{0,1\}\([0-9]\{1,\}\).*|\1|p' \
+        | sort -rn | head -n 1)"
+
+    echo "$_num_pgs"
+}
+
+# get the total number of pages in a PDF; technique 2.
+# See my ans here: https://stackoverflow.com/a/66963293/4561887
+# Usage, where `pw` is some password, if the PDF is password-protected (leave this off for PDFs
+# with no password):
+#       num_pgs="$(getNumPgsInPdf2 "path/to/mypdf.pdf" "pw")"
+# SUPER FAST! Putting `time` just in front of the `pdftoppm` cmd shows it takes ~0.020 sec OR LESS
+# on a 142 pg PDF!
+getNumPgsInPdf2() {
+    _pdf="$1"
+    _password="$2"
+
+    if [ -n "$_password" ]; then
+        _password="-upw $_password"
+    fi
+
+    _num_pgs="$(pdftoppm $_password "$_pdf" -f 1000000 2>&1 | grep -o '([0-9]*)\.$' \
+        | grep -o '[0-9]*')"
+
+    echo "$_num_pgs"
+}
+
 main() {
     print_version
     echo "Language = $lang"
@@ -297,6 +333,13 @@ main() {
         echo "Creating temporary working directory: \"$temp_dir\""
         mkdir -p "$temp_dir"
         rm -rf "$temp_dir"/* # ensure it is empty
+
+        ############
+        # num_pgs="$(getNumPgsInPdf "$pdf_in")"
+        num_pgs2="$(getNumPgsInPdf2 "$pdf_in" "1972")"
+        echo "$num_pgs"
+        echo "$num_pgs2"
+        exit
 
         # 2. Convert the input pdf to a bunch of TIF files inside this directory
         # - See my ans here: https://askubuntu.com/questions/150100/extracting-embedded-images-from-a-pdf/1187844#1187844
