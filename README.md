@@ -21,7 +21,7 @@ It works! See Changelog below.
     1. [Use:](#use)
 1. [Dependencies:](#dependencies)
     1. [You Must Install these:](#you-must-install-these)
-    1. [It also relies on these, but they come pre-installed on Ubuntu 18:](#it-also-relies-on-these-but-they-come-pre-installed-on-ubuntu-18)
+    1. [It also relies on these, but they come pre-installed on Ubuntu:](#it-also-relies-on-these-but-they-come-pre-installed-on-ubuntu)
 1. [PDF2SearchablePDF Installation:](#pdf2searchablepdf-installation)
 1. [Sample run and output:](#sample-run-and-output)
 1. [Changelog](#changelog)
@@ -159,7 +159,7 @@ For some PDF compression options, see my answer here: [AskUbuntu.com: How can I 
 # Quick Start:
 See here: https://askubuntu.com/questions/473843/how-to-turn-a-pdf-into-a-text-searchable-pdf/1187881#1187881
 
-Tested on Ubuntu 18.04 on 11 Nov 2019.
+Tested on Ubuntu 18.04 and 20.04.
 
 <a id="install"></a>
 ## Install:
@@ -176,7 +176,8 @@ Tested on Ubuntu 18.04 on 11 Nov 2019.
     ./install.sh
     ```
 1. **Log out and log back in** if that script just created your `~/bin` dir (if `ls ~/bin` shows only the one `pdf2searchablepdf` symlink in that dir, and nothing else, then this is likely the case).
-    Note about what this does: this step simply causes our `~/.profile` file in Ubuntu to add `~/bin` to your executable PATH, so long as the `~/bin` dir exists. If you need to manually add the `~/bin` dir to your PATH (because you're using a different Linux distribution, for instance, which does not use the `~/.profile` file like this) you can run this command to add it to your path just in the terminal you have open:
+
+    Note about what this does: this step simply causes the `~/.profile` file in Ubuntu to add `~/bin` to your executable PATH, so long as the `~/bin` dir exists. If you need to manually add the `~/bin` dir to your PATH (because you're using a different Linux distribution, for instance, which does not use the `~/.profile` file like this) you can run this command to add it to your path just in the terminal you have open:
     ```bash
     PATH="$HOME/bin:$PATH"
     ```
@@ -187,7 +188,7 @@ Tested on Ubuntu 18.04 on 11 Nov 2019.
         PATH="$HOME/bin:$PATH"
     fi
     ```
-1. (Optional, but recommended) Run tests.
+1. (Optional, but recommended) run tests.
     ```bash
     ./run_tests.sh
     # Then, manually visually scan the output messages and inspect the 
@@ -202,10 +203,14 @@ Uninstallation is simple, if desired. You just need to run the commands below to
 ```bash
 # 1. delete the symlink in ~/bin
 rm ~/bin/pdf2searchablepdf
+
 # 2. (Optional) delete the entire PDF2SearchablePDF repository directory, and all contents
 # in it. WARNING! CHOOSING THE WRONG PATH HERE WILL erase everything in the folder you specify,
 # so BE VERY CAUTIOUS!
 rm -rf path/to/PDF2SearchablePDF
+
+# 3. (Optional) remove dependencies
+sudo apt remove tesseract-ocr
 ```
 
 <a id="use"></a>
@@ -220,7 +225,7 @@ Done. The wrapper has no python dependencies, as it's currently written entirely
 
 <a id="dependencies"></a>
 # Dependencies:
-This has been tested on Ubuntu 18. It requires the following programs:
+This has been tested on Ubuntu 18.04 and 20.04. It requires the following programs:
 
 <a id="you-must-install-these"></a>
 ## You Must Install these:
@@ -230,8 +235,8 @@ This has been tested on Ubuntu 18. It requires the following programs:
 
 See: https://github.com/tesseract-ocr/tesseract/wiki
 
-<a id="it-also-relies-on-these-but-they-come-pre-installed-on-ubuntu-18"></a>
-## It also relies on these, but they come pre-installed on Ubuntu 18:
+<a id="it-also-relies-on-these-but-they-come-pre-installed-on-ubuntu"></a>
+## It also relies on these, but they come pre-installed on Ubuntu:
 
 1. `pdftoppm`
 
