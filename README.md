@@ -17,6 +17,7 @@ It works! See Changelog below.
     1. [Compress your post-processed PDF:](#compress-your-post-processed-pdf)
 1. [Quick Start:](#quick-start)
     1. [Install:](#install)
+    1. [Uninstall:](#uninstall)
     1. [Use:](#use)
 1. [Dependencies:](#dependencies)
     1. [You Must Install these:](#you-must-install-these)
@@ -163,17 +164,48 @@ Tested on Ubuntu 18.04 on 11 Nov 2019.
 <a id="install"></a>
 ## Install:
 
-```bash
-git clone https://github.com/ElectricRCAircraftGuy/PDF2SearchablePDF.git
-PDF2SearchablePDF/install.sh
-sudo apt update
-sudo apt install tesseract-ocr
+1. Install dependencies
+    ```bash
+    sudo apt update
+    sudo apt install tesseract-ocr
+    ```
+1. Download the repository, and run the install script: 
+    ```bash
+    git clone https://github.com/ElectricRCAircraftGuy/PDF2SearchablePDF.git
+    cd PDF2SearchablePDF
+    ./install.sh
+    ```
+1. **Log out and log back in** if that script just created your `~/bin` dir (if `ls ~/bin` shows only the one `pdf2searchablepdf` symlink in that dir, and nothing else, then this is likely the case).
+    Note about what this does: this step simply causes our `~/.profile` file in Ubuntu to add `~/bin` to your executable PATH, so long as the `~/bin` dir exists. If you need to manually add the `~/bin` dir to your PATH (because you're using a different Linux distribution, for instance, which does not use the `~/.profile` file like this) you can run this command to add it to your path just in the terminal you have open:
+    ```bash
+    PATH="$HOME/bin:$PATH"
+    ```
+    OR, you can add this to the bottom of your `~/.bashrc` file, then close and re-open your terminal. Note: this is copied from Ubuntu's default `~/.profile` file:
+    ```bash
+    # set PATH so it includes user's private bin if it exists
+    if [ -d "$HOME/bin" ] ; then
+        PATH="$HOME/bin:$PATH"
+    fi
+    ```
+1. (Optional, but recommended) Run tests.
+    ```bash
+    ./run_tests.sh
+    # Then, manually visually scan the output messages and inspect the 
+    # output searchable PDF files to ensure everything looks like it worked 
+    # correctly.
+    ``` 
+1. Lastly, ensure you **do NOT delete the PDF2SearchablePDF repository you downloaded**, as the install script didn't copy the executable out of it, it created an executable symlink which points *to* it.
 
-# (Optional, but recommended) Run tests.
-PDF2SearchablePDF/run_tests.sh
-# Then, manually visually scan the output messages and inspect the 
-# output searchable PDF files to ensure everything looks like it worked 
-# correctly. 
+<a id="uninstall"></a>
+## Uninstall:
+Uninstallation is simple, if desired. You just need to run the commands below to delete a few things, or delete those things manually using your favorite file manager, such as nemo (see [my detailed installation instructions for nemo in Ubuntu here](https://askubuntu.com/a/1173861/327339)).
+```bash
+# 1. delete the symlink in ~/bin
+rm ~/bin/pdf2searchablepdf
+# 2. (Optional) delete the entire PDF2SearchablePDF repository directory, and all contents
+# in it. WARNING! CHOOSING THE WRONG PATH HERE WILL erase everything in the folder you specify,
+# so BE VERY CAUTIOUS!
+rm -rf path/to/PDF2SearchablePDF
 ```
 
 <a id="use"></a>
@@ -181,7 +213,7 @@ PDF2SearchablePDF/run_tests.sh
 
     pdf2searchablepdf mypdf.pdf
 
-You'll now have a pdf called **mypdf_searchable.pdf**, which contains searchable text!
+You'll now have a pdf called **mypdf_searchable.pdf**, which contains searchable text! See `pdf2searchablepdf -h` for many more usage examples.
 
 Done. The wrapper has no python dependencies, as it's currently written entirely in bash.
 
