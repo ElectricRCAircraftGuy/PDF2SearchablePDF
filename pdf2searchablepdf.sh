@@ -111,11 +111,11 @@ Source code:
 https://github.com/ElectricRCAircraftGuy/PDF2SearchablePDF
 "
 
-# A "debug" version of `echo`, to only print when `DEBUG_PRINTS_ON` is `true`.
+# A "debug" version of `echo`, to only print when `DEBUG_PRINTS_ON` is `true`
 echo_debug() {
     if [ "$DEBUG_PRINTS_ON" == "true" ]; then
         printf "DEBUG: "
-        echo $@
+        echo "$@"
     fi
 }
 
@@ -355,7 +355,7 @@ main() {
 }
 
 # ----------------------------------------------------------------------------------------------------------------------
-# Program entry point
+# Main program entry point
 # ----------------------------------------------------------------------------------------------------------------------
 
 parse_args "$@"
