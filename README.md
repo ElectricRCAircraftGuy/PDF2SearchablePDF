@@ -2,10 +2,13 @@
 
 [>> Sponsor Me on GitHub <<](https://github.com/sponsors/ElectricRCAircraftGuy)
 
+
 # PDF2SearchablePDF
+
 
 # Status
 It works! See Changelog below.
+
 
 # Table of Contents
 <details>
@@ -44,6 +47,7 @@ It works! See Changelog below.
 # Description:
 `tesseract` has the ability to do OCR (Optical Character Recognition) on image files, but unfortunately NOT on PDF files as inputs. This is unfortunate, as it means it's a pain to try to convert a PDF to a searchable PDF, so this program scripts the process using existing tools in order to make it stupid-simple for ANYONE to use!
 
+
 <a id="operating-systems"></a>
 ## Operating Systems:
 
@@ -55,6 +59,7 @@ It works! See Changelog below.
         1. [Probably the easiest/best]: get Windows tesseract .exe binary files directly from UB-Mannheim here: https://github.com/UB-Mannheim/tesseract/wiki.
         1. Cygwin packages for tesseract: https://cygwin.com/cgi-bin2/package-grep.cgi?grep=tesseract&arch=x86_64.
     - Once you get tesseract installed from the .exe file provided by UB-Mannheim above, for instance, I'm pretty sure you can then just install [Git for Windows][git_for_windows], open the bash terminal it provides, and run `pdf2searchablepdf` from there. This assumes that the .exe installer places `tesseract` in the Windows PATH so that you can call `tesseract` from the command-line/MS-DOS-prompt in Windows.
+
 
 <a id="usage"></a>
 ## Usage:
@@ -152,8 +157,17 @@ Compress all the images, then convert all of them to a single, searchable PDF:
 
 For my particular case, with 7 jpeg images originally in the 2.5 to 3MB size range, the end result without jpegoptim was a 20 MB PDF, which is too large to email! By calling `jpegoptim --size=500k` as shown above, first, it shrunk the image size to approx. 500kB each, which meant the final PDF size was about 3.5MB instead of 20MB! Big improvement! Now I can email the file, and the images still look pretty good!
 
+
 <a id="compress-your-post-processed-pdf"></a>
 ## Compress your post-processed PDF:
+
+Update: as of v0.6.0, just use the `-c` or `--compress` option. Ex:
+
+```bash
+pdf2searchablepdf -c input.pdf
+# or (same thing)
+pdf2searchablepdf --compress input.pdf
+```
 
 For some PDF compression options, see my answer here: [AskUbuntu.com: How can I reduce the file size of a scanned PDF file?](https://askubuntu.com/questions/113544/how-can-i-reduce-the-file-size-of-a-scanned-pdf-file/1303196#1303196).
 
@@ -163,6 +177,7 @@ For some PDF compression options, see my answer here: [AskUbuntu.com: How can I 
 See here: https://askubuntu.com/questions/473843/how-to-turn-a-pdf-into-a-text-searchable-pdf/1187881#1187881
 
 Tested on Ubuntu 18.04 and 20.04.
+
 
 <a id="install"></a>
 ## Install:
@@ -200,6 +215,7 @@ Tested on Ubuntu 18.04 and 20.04.
     ``` 
 1. Lastly, ensure you **do NOT delete the PDF2SearchablePDF repository you downloaded**, as the install script didn't copy the executable out of it, it created an executable symlink which points *to* it.
 
+
 <a id="uninstall"></a>
 ## Uninstall:
 Uninstallation is simple, if desired. You just need to run the commands below to delete a few things, or delete those things manually using your favorite file manager, such as nemo (see [my detailed installation instructions for nemo in Ubuntu here](https://askubuntu.com/a/1173861/327339)).
@@ -216,6 +232,7 @@ rm -rf path/to/PDF2SearchablePDF
 sudo apt remove tesseract-ocr
 ```
 
+
 <a id="use"></a>
 ## Use:
 
@@ -230,6 +247,7 @@ Done. The wrapper has no python dependencies, as it's currently written entirely
 # Dependencies:
 This has been tested on Ubuntu 18.04 and 20.04. It requires the following programs:
 
+
 <a id="you-must-install-these"></a>
 ## You Must Install these:
 
@@ -237,6 +255,7 @@ This has been tested on Ubuntu 18.04 and 20.04. It requires the following progra
     sudo apt install tesseract-ocr
 
 See: https://github.com/tesseract-ocr/tesseract/wiki
+
 
 <a id="it-also-relies-on-these-but-they-come-pre-installed-on-ubuntu"></a>
 ## It also relies on these, but they come pre-installed on Ubuntu:
