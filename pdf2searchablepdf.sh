@@ -17,7 +17,7 @@ start=$SECONDS
 RETURN_CODE_SUCCESS=0
 RETURN_CODE_ERROR=1
 
-VERSION="0.5.0"
+VERSION="0.6.0"
 AUTHOR="Gabriel Staples"
 
 DEBUG_PRINTS_ON="false" # true or false; can also be passed in as an option: `-d` or `--debug`
@@ -59,6 +59,10 @@ Usage:
             print help menu, then exit
     [-v|--version]
             print author & version, then exit
+    [-c|--compress]
+            Also output low-compression (large size), medium-compression (medium size), and
+            high-compression (small_size) copies of the output file. Just delete whichever copies
+            you don't need, when done.
     [-d|--debug]
             Turn debug prints on while running the script
     [-upw <password>]
@@ -159,6 +163,7 @@ parse_args() {
 
     user_password=""
     lang="eng" # English
+    compression="off"
 
     POSITIONAL_ARGS_ARRAY=()
     while [[ $# -gt 0 ]]; do
@@ -176,6 +181,11 @@ parse_args() {
             "-v"|"--version")
                 print_version
                 exit $RETURN_CODE_SUCCESS
+                ;;
+            # Compression
+            "-c"|"--compress")
+                compression="on"
+                shift # past argument
                 ;;
             # Debug prints on
             "-d"|"--debug")
@@ -349,7 +359,32 @@ main() {
         exit $ret_code
     fi
 
-    echo "Done! Searchable PDF generated at \"${pdf_out}.pdf\"."
+    echo "Searchable PDF generated at \"${pdf_out}.pdf\"."
+
+    # TODO(#11): post-processing the images is a crude way to do this. Do this a better way instead.
+    # See here:
+    # https://github.com/ElectricRCAircraftGuy/PDF2SearchablePDF/issues/11#issuecomment-1277052283
+    if [ "$compression" = "on" ]; then
+        echo "Compression is on."
+
+        # See my answer here for compression techniques I recommend:
+        # https://askubuntu.com/a/1303196/327339
+
+        echo "Generating a low-compression (large size, \"printer\")"\
+             "(300 dpi) copy of the output PDF."
+        gs -q -sDEVICE=pdfwrite -dPDFSETTINGS=/printer -dNOPAUSE -dBATCH \
+            -sOutputFile="${pdf_out}_large.pdf" "${pdf_out}.pdf"
+
+        echo "Generating a medium-compression (medium size, \"ebook\")"\
+             "(150 dpi--best in my testing) copy of the output PDF."
+        gs -q -sDEVICE=pdfwrite -dPDFSETTINGS=/ebook -dNOPAUSE -dBATCH \
+            -sOutputFile="${pdf_out}_medium.pdf" "${pdf_out}.pdf"
+
+        echo "Generating a high-compression (small size, \"screen\")"\
+             "(72 dpi) copy of the output PDF."
+        gs -q -sDEVICE=pdfwrite -dPDFSETTINGS=/screen -dNOPAUSE -dBATCH \
+            -sOutputFile="${pdf_out}_small.pdf" "${pdf_out}.pdf"
+    fi
 
     cleanup
 }

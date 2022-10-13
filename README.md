@@ -27,6 +27,7 @@ It works! See Changelog below.
 1. [PDF2SearchablePDF Installation:](#pdf2searchablepdf-installation)
 1. [Sample run and output:](#sample-run-and-output)
 1. [Changelog](#changelog)
+    1. [\[v0.6.0\] - 2022-10-12](#v060---2022-10-12)
     1. [\[v0.5.0\] - 2021-03-02](#v050---2021-03-02)
     1. [\[v0.4.0\] - 2020-03-14](#v040---2020-03-14)
     1. [\[v0.3.0\] - 2019-12-29](#v030---2019-12-29)
@@ -169,7 +170,7 @@ Tested on Ubuntu 18.04 and 20.04.
 1. Install dependencies
     ```bash
     sudo apt update
-    sudo apt install tesseract-ocr
+    sudo apt install tesseract-ocr ghostscript
     ```
 1. Download the repository, and run the install script: 
     ```bash
@@ -245,7 +246,7 @@ See: https://github.com/tesseract-ocr/tesseract/wiki
 
 <a id="pdf2searchablepdf-installation"></a>
 # PDF2SearchablePDF Installation:
-Simply run the "install.sh" script to create a symbolic link to `pdf2searchablepdf` in your "~/bin" directory:
+Simply run the "install.sh" script to create a symbolic link to `pdf2searchablepdf` in your `~/bin` directory:
 
     ./install.sh
 
@@ -303,6 +304,12 @@ MORE MATURE PHASE:
 1. MAJOR version when you make incompatible API changes,  
 2. MINOR version when you add functionality in a backwards compatible manner, and  
 3. PATCH version when you make backwards compatible bug fixes.  
+
+<a id="v060---2022-10-12"></a>
+## [v0.6.0] - 2022-10-12
+- Added `-c`/`--compress` option to output compressed copies of the output PDF as well. 
+    - Partially fulfills this ticket: https://github.com/ElectricRCAircraftGuy/PDF2SearchablePDF/issues/11
+    - Post-processing the PDF is a crude way to do it, but it's better than nothing. A better way to do it in the future would be to do OCR on the high-quality images and output the data to an intermediate format, then compress the images as desired and overlay the output OCR data onto the custom-compressed images. That will have to be future work. 
 
 <a id="v050---2021-03-02"></a>
 ## [v0.5.0] - 2021-03-02
