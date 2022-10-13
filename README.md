@@ -169,7 +169,7 @@ pdf2searchablepdf -c input.pdf
 pdf2searchablepdf --compress input.pdf
 ```
 
-For some PDF compression options, see my answer here: [AskUbuntu.com: How can I reduce the file size of a scanned PDF file?](https://askubuntu.com/questions/113544/how-can-i-reduce-the-file-size-of-a-scanned-pdf-file/1303196#1303196).
+See also my answer here: [AskUbuntu.com: How can I reduce the file size of a scanned PDF file?](https://askubuntu.com/questions/113544/how-can-i-reduce-the-file-size-of-a-scanned-pdf-file/1303196#1303196).
 
 
 <a id="quick-start"></a>
