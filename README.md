@@ -147,13 +147,18 @@ Here's an example demonstrating how to install `jpegoptim`, use it to compress a
 
 Install `jpegoptim`: 
 
-    sudo apt update
-    sudo apt install jpegoptim
+```bash
+sudo apt update
+sudo apt install jpegoptim
+```
 
 Compress all the images, then convert all of them to a single, searchable PDF:
 
-    jpegoptim --size=500k dir_of_imgs/*.jpg # compress the whole dir of images!
-    pdf2searchablepdf dir_of_imgs           # now make 1 searchable pdf out of all of them!
+```bash
+jpegoptim --size=500k dir_of_imgs/*.jpg # Compress the whole dir of images! NB: `--size=300k` is 
+                                        # about the smallest I'd go.
+pdf2searchablepdf dir_of_imgs           # Now make 1 searchable pdf out of all of them!
+```
 
 For my particular case, with 7 jpeg images originally in the 2.5 to 3MB size range, the end result without jpegoptim was a 20 MB PDF, which is too large to email! By calling `jpegoptim --size=500k` as shown above, first, it shrunk the image size to approx. 500kB each, which meant the final PDF size was about 3.5MB instead of 20MB! Big improvement! Now I can email the file, and the images still look pretty good!
 
@@ -251,8 +256,10 @@ This has been tested on Ubuntu 18.04 and 20.04. It requires the following progra
 <a id="you-must-install-these"></a>
 ## You Must Install these:
 
-    sudo apt update 
-    sudo apt install tesseract-ocr
+```bash
+sudo apt update 
+sudo apt install tesseract-ocr
+```
 
 See: https://github.com/tesseract-ocr/tesseract/wiki
 
@@ -267,7 +274,9 @@ See: https://github.com/tesseract-ocr/tesseract/wiki
 # PDF2SearchablePDF Installation:
 Simply run the "install.sh" script to create a symbolic link to `pdf2searchablepdf` in your `~/bin` directory:
 
-    ./install.sh
+```bash
+./install.sh
+```
 
 In short, just follow the "Install" instructions above under the "Quick Start" section.
 
