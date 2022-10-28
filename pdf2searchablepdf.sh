@@ -184,11 +184,13 @@ parse_args() {
                 ;;
             # Compression
             "-c"|"--compress")
+                echo "'-c': compression ON"
                 compression="on"
                 shift # past argument
                 ;;
             # Debug prints on
             "-d"|"--debug")
+                echo "'-d': debug prints ON"
                 DEBUG_PRINTS_ON="true"
                 shift # past argument
                 ;;
