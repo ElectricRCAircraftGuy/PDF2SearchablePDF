@@ -30,6 +30,7 @@ It works! See Changelog below.
 1. [PDF2SearchablePDF Installation:](#pdf2searchablepdf-installation)
 1. [Sample run and output:](#sample-run-and-output)
 1. [Changelog](#changelog)
+    1. [\[v0.7.0\] - 2022-11-04](#v070---2022-11-04)
     1. [\[v0.6.0\] - 2022-10-12](#v060---2022-10-12)
     1. [\[v0.5.0\] - 2021-03-02](#v050---2021-03-02)
     1. [\[v0.4.0\] - 2020-03-14](#v040---2020-03-14)
@@ -332,6 +333,12 @@ MORE MATURE PHASE:
 1. MAJOR version when you make incompatible API changes,  
 2. MINOR version when you add functionality in a backwards compatible manner, and  
 3. PATCH version when you make backwards compatible bug fixes.  
+
+<a id="v070---2022-11-04"></a>
+## [v0.7.0] - 2022-11-04
+- Added more error messages to help you upgrade it if your version of poppler (which contains `pdftoppm`) is out-of-date. See: 
+    1. https://github.com/ElectricRCAircraftGuy/PDF2SearchablePDF/issues/29#issuecomment-1303065477 
+    1. [How to install/upgrade to the latest version of Poppler/`pdftoppm` (version 22.11.0 at the time of this writing) on Linux Ubuntu](https://stackoverflow.com/a/74313286/4561887)
 
 <a id="v060---2022-10-12"></a>
 ## [v0.6.0] - 2022-10-12

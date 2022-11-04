@@ -17,7 +17,7 @@ start=$SECONDS
 RETURN_CODE_SUCCESS=0
 RETURN_CODE_ERROR=1
 
-VERSION="0.6.0"
+VERSION="0.7.0"
 AUTHOR="Gabriel Staples"
 
 DEBUG_PRINTS_ON="false" # true or false; can also be passed in as an option: `-d` or `--debug`
@@ -238,7 +238,7 @@ parse_args() {
 cleanup() {
     # Delete temp dir
     if [ "$temp_dir" != "" ]; then
-        echo "Removing temporary working directory at \"$temp_dir\"."
+        echo "Cleaning up: removing temporary working directory at \"$temp_dir\"."
         rm -rf "$temp_dir"
         echo "Done!"
     fi
@@ -327,6 +327,22 @@ main() {
         ret_code="$?"
         if [ "$ret_code" -ne "$RETURN_CODE_SUCCESS" ]; then
             echo "ERROR: 'pdftoppm' failed. ret_code = $ret_code"
+
+            if [ "$ret_code" -eq "1" ]; then
+                echo "You may have an old version of poppler (which contains 'pdftoppm') and need" \
+                     "to upgrade it. See my detailed instructions on how to do this here:" \
+                     "https://github.com/ElectricRCAircraftGuy/PDF2SearchablePDF/issues/29#issuecomment-1303065477" \
+                     "I encourage you to up-vote the answer on both GitHub and Stack Overflow" \
+                     "if it helps you."
+            elif [ "$ret_code" -eq "99" ]; then
+                echo "You may have a version of poppler (which contains 'pdftoppm') which is" \
+                     "missing the '-tiff' option. Please rebuild poppler from source following my" \
+                     "detailed instructions here:" \
+                     "https://github.com/ElectricRCAircraftGuy/PDF2SearchablePDF/issues/29#issuecomment-1303065477" \
+                     "Be sure to install 'libtiff-dev', as shown in the instructions, to obtain" \
+                     "this feature."
+            fi
+
             cleanup
             exit $ret_code
         fi
