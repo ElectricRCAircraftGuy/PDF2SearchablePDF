@@ -7,30 +7,60 @@
 #   this: `/home/my_username/bin:`. If you don't, you'll need to manually add your "~/bin" directory to your path
 #   for this program to be visible.
 
+# See my answer: https://stackoverflow.com/a/60157372/4561887
+FULL_PATH_TO_SCRIPT="$(realpath "${BASH_SOURCE[-1]}")"
+SCRIPT_DIRECTORY="$(dirname "$FULL_PATH_TO_SCRIPT")"
+SCRIPT_FILENAME="$(basename "$FULL_PATH_TO_SCRIPT")"
+
 mkdir -p ~/bin
 
-# Obtain full path to this install.sh file:
-full_path="$(readlink -f $0)"
-# echo "full_path = \"$full_path\""
-
-# Get just the directory path now, by stripping off the filename part; see: https://stackoverflow.com/a/6121114/4561887
-dir="$(dirname "${full_path}")"
-# echo "dir = \"$dir\""
-
-path2exec="${dir}/pdf2searchablepdf.sh" # path to the executable bash script
+path2exec="${SCRIPT_DIRECTORY}/pdf2searchablepdf.sh" # path to the executable bash script
 # echo "path2exec = \"$path2exec\""
 
 ln -sf "$path2exec" ~/bin/pdf2searchablepdf
 
 # Install dependencies
-echo "Installing dependencies using 'sudo apt'..."
-sudo apt update
-sudo DEBIAN_FRONTEND=noninteractive apt install -y \
-     tesseract-ocr \
-     ghostscript
+distro_name="$(lsb_release -is)"
+if [ "$distro_name" = "Ubuntu" ]; then
+     echo "Installing Ubuntu dependencies using 'sudo apt'..."
+     sudo apt update
+     sudo DEBIAN_FRONTEND=noninteractive apt install -y \
+          tesseract-ocr \
+          ghostscript
+fi
 
 echo ""
-echo "Done: symbolic link should have been placed in \"~/bin/pdf2searchablepdf\"."
 echo ""
-echo "Run '. ~/.profile' now to re-source your \"~/.profile\" file, which sources your"\
-     "\"~/.bashrc\" file, to ensure the new \"~/bin\" dir is in your PATH."
+echo "=================== FINAL 'pdf2searchablepdf' INSTALLATION INSTRUCTIONS ====================="
+
+if [ "$distro_name" != "Ubuntu" ]; then
+     echo "You are not running Ubuntu, so you'll need to install dependencies manually yourself."
+     echo "See here for a list of them:"\
+          "https://github.com/ElectricRCAircraftGuy/PDF2SearchablePDF#install"
+fi
+
+echo ""
+echo "Done: a symbolic link should have been placed in \"~/bin/pdf2searchablepdf\"."
+echo ""
+echo "\
+Run '. ~/.profile' now to re-source your \"~/.profile\" file, which sources
+your \"~/.bashrc\" file, to ensure the new \"~/bin\" dir is in your PATH.
+
+If you are not running Ubuntu, or if you do not have Ubuntu's default
+'~/.profile' file, you may need to manually add '~/bin' to your path instead. In
+this case, add the following to the bottom of your '~/.bashrc' file:
+"'
+     # From Ubuntu'"'"'s default "~/.profile" file at /etc/skel/.profile:
+     # set PATH so it includes user'"'"'s private bin if it exists
+     if [ -d "$HOME/bin" ] ; then
+         PATH="$HOME/bin:$PATH"
+     fi
+
+Then, re-source your ~/.bashrc file with '"'. ~/.bashrc'
+
+To understand more about 'source' vs 'export', see my answer here:
+https://stackoverflow.com/a/62626515/4561887
+"
+
+
+# end
