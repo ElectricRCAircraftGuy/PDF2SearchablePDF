@@ -26,7 +26,9 @@ if [ "$distro_name" = "Ubuntu" ]; then
      sudo apt update
      sudo DEBIAN_FRONTEND=noninteractive apt install -y \
           tesseract-ocr \
-          ghostscript
+          ghostscript \
+          poppler-utils \
+          bc
 fi
 
 echo ""
